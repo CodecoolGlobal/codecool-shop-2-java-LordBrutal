@@ -42,14 +42,13 @@
         <form action="/" method="get">
             <label for="category">Filter by Category: </label>
             <select name="categories" id="category">
-                <option value="" selected disabled>Choose Supplier: </option>
+                <option value="" selected>Choose category</option>
                 <option th:value="${category.name}" th:text="${category.name}"></option>
-
             </select>
 
-            <label for="supply">Filter by Supplyer: </label>
+            <label for="supply">Filter by Supplier: </label>
             <select name="supplier" id="supply">
-                <option selected disabled hidden>Choose Supplier</option>
+                <option value="" selected >Choose supplier</option>
                 <option th:each="supp,iterStat : ${products}" th:text="${supp.getSupplier().name}"></option>
             </select>
 
