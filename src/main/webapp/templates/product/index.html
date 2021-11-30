@@ -43,12 +43,12 @@
             <label for="category">Filter by Category: </label>
             <select name="categories" id="category">
                 <option value="" selected>Choose category</option>
-                <option th:value="${category.name}" th:text="${category.name}"></option>
+                <option th:each="cat,iterStat : ${categories}" th:value="${cat.getId()}" th:text="${cat.getName()}"></option>
             </select>
 
             <label for="supply">Filter by Supplier: </label>
             <select name="supplier" id="supply">
-                <option value="" selected >Choose supplier</option>
+                <option value="" selected>Choose supplier</option>
                 <option th:each="supp,iterStat : ${suppliers}" th:value="${supp.getId()}" th:text="${supp.getName()}"></option>
             </select>
 
