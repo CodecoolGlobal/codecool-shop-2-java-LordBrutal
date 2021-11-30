@@ -16,20 +16,26 @@ function addToCart(e){
 }
 
 function saveItemIntoStorage(item){
-    const items = JSON.parse(sessionStorage.getItem("cart"));
-    let isOncard = false;
-    for (let i = 0; i < items.length; i++) {
-        if (items[i].id === item.id){
-            items[i].piece = item.piece;
-            isOncard = true;
+    let items = JSON.parse(sessionStorage.getItem("cart"));
+    if (items == null){
+        items = [item];
+        console.log(items)
+    }else {
+        let isOncard = false;
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].id === item.id){
+                items[i].piece = item.piece;
+                isOncard = true;
+            }
+        }
+        if (!isOncard){
+            items.push(item)
         }
     }
-    if (!isOncard){
-        items.push(item)
-    }
     sessionStorage.setItem("cart", JSON.stringify(items));
-    //console.log(sessionStorage.getItem("cart"));
+    console.log(sessionStorage.getItem("cart"));
 }
+
 
 addCartbutton();
 
