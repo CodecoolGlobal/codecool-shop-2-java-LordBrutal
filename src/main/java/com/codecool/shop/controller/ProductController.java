@@ -35,11 +35,11 @@ public class ProductController extends HttpServlet {
         WebContext context = new WebContext(req, resp, req.getServletContext());
         int categoryId = 1;
         if(req.getParameter("categories") != null || req.getParameter("supplier") != null) {
-            if(req.getParameter("supplier").equals("")) {
+            if(!req.getParameter("categories").equals("")) {
                 categoryId = Integer.parseInt(req.getParameter("categories"));
                 context.setVariable("products", productService.getProductsForCategory(categoryId));
             }
-            else {
+            else if(!req.getParameter("supplier").equals("")){
                 int supplyId = Integer.parseInt(req.getParameter("supplier"));
                 context.setVariable("products", supplierDataStore.find(supplyId).getProducts());
             }
