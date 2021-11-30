@@ -49,7 +49,7 @@
             <label for="supply">Filter by Supplier: </label>
             <select name="supplier" id="supply">
                 <option value="" selected >Choose supplier</option>
-                <option th:each="supp,iterStat : ${products}" th:text="${supp.getSupplier().name}"></option>
+                <option th:each="supp,iterStat : ${suppliers}" th:value="${supp.getId()}" th:text="${supp.getName()}"></option>
             </select>
 
             <input type="submit" value="Submit">
