@@ -70,7 +70,7 @@
 </div>
 
 <div class="container" th:each="cat,iterStat : ${categories}">
-    <div class="categories">
+    <div class="categories" th:if="${cat.getFilteredProducts(products).size() > 0}">
         <strong th:text="${cat.name}">Category Title</strong>
     </div>
 
