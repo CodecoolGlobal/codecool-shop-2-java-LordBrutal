@@ -2,6 +2,7 @@ package com.codecool.shop.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductCategory extends BaseModel {
     private String department;
@@ -27,6 +28,12 @@ public class ProductCategory extends BaseModel {
 
     public List<Product> getProducts() {
         return this.products;
+    }
+
+    public List<Product> getFilteredProducts(List<Product> filter) {
+        return filter.stream()
+                .filter(p -> p.getProductCategory().equals(this))
+                        .collect(Collectors.toList());
     }
 
     public void addProduct(Product product) {

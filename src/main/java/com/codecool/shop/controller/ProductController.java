@@ -6,6 +6,7 @@ import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.model.Product;
 import com.codecool.shop.service.ProductService;
 import com.codecool.shop.config.TemplateEngineUtil;
 import org.thymeleaf.TemplateEngine;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet(urlPatterns = {"/"})
@@ -33,23 +35,21 @@ public class ProductController extends HttpServlet {
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
-        int categoryId = 1;
         if(req.getParameter("categories") != null || req.getParameter("supplier") != null) {
             if(!req.getParameter("categories").equals("")) {
-                categoryId = Integer.parseInt(req.getParameter("categories"));
+                int categoryId = Integer.parseInt(req.getParameter("categories"));
                 context.setVariable("products", productService.getProductsForCategory(categoryId));
             }
             else if(!req.getParameter("supplier").equals("")){
                 int supplyId = Integer.parseInt(req.getParameter("supplier"));
-                context.setVariable("products", supplierDataStore.find(supplyId).getProducts());
-            } {
+                List<Product> products = supplierDataStore.find(supplyId).getProducts();
+                context.setVariable("products", products);
+            } else {
                 context.setVariable("products", productService.getAllProducts());
             }
         } else {
             context.setVariable("products", productService.getAllProducts());
         }
-        context.setVariable("category", productService.getProductCategory(categoryId));
-
         context.setVariable("categories", productCategoryDataStore.getAll());
         context.setVariable("suppliers", supplierDataStore.getAll());
         // // Alternative setting of the template context
