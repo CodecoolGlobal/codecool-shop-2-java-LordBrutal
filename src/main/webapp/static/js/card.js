@@ -54,6 +54,14 @@ function cartOpenButton() {
     modalContent.appendChild(closeButton);
     modalContent.appendChild(header);
 
+    let ul = document.createElement("ul");
+    for (let i = 0; i < items.length; i++) {
+        let li = document.createElement("li");
+        li.innerText = items[i].name + " " + "id:" +items[i].id + " " + "piece: " + items[i].piece
+        ul.appendChild(li)
+    }
+    modalContent.appendChild(ul);
+
     const modal = document.getElementById("myModal");
     const btn = document.getElementById("myBtn");
     const span = document.getElementsByClassName("close")[0];
