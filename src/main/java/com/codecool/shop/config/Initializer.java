@@ -33,7 +33,8 @@ public class Initializer implements ServletContextListener {
         supplierDataStore.add(xiaomi);
         Supplier nerf = new Supplier("Nerf", "Gun manufacture");
         supplierDataStore.add(nerf);
-
+        Supplier dirtech = new Supplier("DirTech", "Best gardening equipment provider around the globe");
+        supplierDataStore.add(dirtech);
         //setting up a new product category
         ProductCategory tablet = new ProductCategory("Tablet", "Hardware", "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.");
         productCategoryDataStore.add(tablet);
@@ -41,14 +42,23 @@ public class Initializer implements ServletContextListener {
         productCategoryDataStore.add(phone);
         ProductCategory weapon = new ProductCategory("Weapon", "Military", "It can save your life");
         productCategoryDataStore.add(weapon);
+        ProductCategory gardening = new ProductCategory("Gardening", "Household", "Product for outside work");
+        productCategoryDataStore.add(gardening);
         //setting up products and printing it
         productDataStore.add(new Product("Amazon Fire", new BigDecimal("49.9"), "USD", "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", tablet, amazon));
         productDataStore.add(new Product("Lenovo IdeaPad Miix 700", new BigDecimal("479"), "USD", "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", tablet, lenovo));
         productDataStore.add(new Product("Amazon Fire HD 8", new BigDecimal("89"), "USD", "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", tablet, amazon));
         productDataStore.add(new Product("Xiaomi 10", new BigDecimal("100"), "USD", "Best phone manufacturer in China, Supports Google", phone, xiaomi));
+
         productDataStore.add(new Product("Nerf Elite Titan CS-50 ", new BigDecimal("420"), "USD", "Take on targets with the power and size of a giant with Nerf Elite Titan CS-50 blaster!", weapon, nerf));
         productDataStore.add(new Product("Nerf N-Strike Rhino-Fire", new BigDecimal("1500"), "USD", "Win the battle with the most BRUTAL GUN", weapon, nerf));
         productDataStore.add(new Product("Nerf Ultra Select", new BigDecimal("145"), "USD", "Play safe with your kid without hurt him", weapon, nerf));
         productDataStore.add(new Product("Nerf Round", new BigDecimal("10"), "USD", "Best ammunition for battle", weapon, nerf));
+        productDataStore.add(new Product("Used Phone", new BigDecimal("50"), "USD", "Barely used", phone, xiaomi));
+        productDataStore.add(new Product("Dirt", new BigDecimal("2"), "USD", "A handful of dirt", gardening, dirtech));
+        productDataStore.add(new Product("Grass Block", new BigDecimal("5"), "USD", "Plantable grass", gardening, dirtech));
+        productDataStore.add(new Product("Bagger 228", new BigDecimal("1000"), "USD", "Handy tool for excavation", gardening, dirtech));
+        productDataStore.add(new Product("Shovel", new BigDecimal("3"), "USD", "For smaller gardening projects", gardening, dirtech));
+        productDataStore.add(new Product("Leaf", new BigDecimal("3"), "USD", "A leaf", gardening, dirtech));
     }
 }
