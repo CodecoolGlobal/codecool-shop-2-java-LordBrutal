@@ -60,3 +60,46 @@
 {
     margin: 0 0 11px;
 }
+
+.navul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.navright {
+    float: left;
+}
+
+.navleft {
+    background: #51049e;
+    float: right;
+}
+
+.navcart:hover {
+    background-color: #3a0470;
+
+}
+
+
+.nava {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navcart {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.nava:hover {
+    background-color: #111;
+}
