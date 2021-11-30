@@ -31,6 +31,8 @@ public class Initializer implements ServletContextListener {
         supplierDataStore.add(lenovo);
         Supplier xiaomi = new Supplier("Xiaomi", "Phone manufacturer");
         supplierDataStore.add(xiaomi);
+        Supplier toshiba = new Supplier("Toshiba", "Japanese phone manufacturer");
+        supplierDataStore.add(toshiba);
         Supplier nerf = new Supplier("Nerf", "Gun manufacture");
         supplierDataStore.add(nerf);
         Supplier dirtech = new Supplier("DirTech", "Best gardening equipment provider around the globe");
@@ -60,5 +62,7 @@ public class Initializer implements ServletContextListener {
         productDataStore.add(new Product("Bagger 228", new BigDecimal("1000"), "USD", "Handy tool for excavation", gardening, dirtech));
         productDataStore.add(new Product("Shovel", new BigDecimal("3"), "USD", "For smaller gardening projects", gardening, dirtech));
         productDataStore.add(new Product("Leaf", new BigDecimal("3"), "USD", "A leaf", gardening, dirtech));
+        productDataStore.add(new Product("Toshiba Handybook", new BigDecimal("50"), "USD", "Toshiba tablet for personal use", tablet, toshiba));
+        productDataStore.add(new Product("Toshiba g450", new BigDecimal("30"), "USD", "A bit wacky design", phone, toshiba));
     }
 }
