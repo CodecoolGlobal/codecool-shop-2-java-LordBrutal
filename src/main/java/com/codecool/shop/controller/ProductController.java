@@ -42,9 +42,11 @@ public class ProductController extends HttpServlet {
             else if(!req.getParameter("supplier").equals("")){
                 int supplyId = Integer.parseInt(req.getParameter("supplier"));
                 context.setVariable("products", supplierDataStore.find(supplyId).getProducts());
+            } {
+                context.setVariable("products", productService.getAllProducts());
             }
         } else {
-            context.setVariable("products", productService.getProductsForCategory(categoryId));
+            context.setVariable("products", productService.getAllProducts());
         }
         context.setVariable("category", productService.getProductCategory(categoryId));
 
