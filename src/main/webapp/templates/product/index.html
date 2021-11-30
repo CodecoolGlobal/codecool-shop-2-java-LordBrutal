@@ -5,6 +5,7 @@
     <meta name="author" content="Codecool" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="icon" href="data:,">
+    <script src="/static/js/card.js" defer></script>
     <title>Codecool Shop</title>
 
     <!-- Bootstrap components -->
@@ -72,7 +73,10 @@
                         <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
                     </div>
                     <div class="card-text">
-                        <a class="btn btn-success" href="#">Add to cart</a>
+                        <button class="btn btn-success center" id="add-card" th:value="${prod.getId()}" type="button">Add to cart</button>
+                        <label>
+                            <input type="number" step="1" max="" min="1" value="1" class="btn btn-outline-secondary quantity-field">
+                        </label>
                     </div>
                 </div>
             </div>
