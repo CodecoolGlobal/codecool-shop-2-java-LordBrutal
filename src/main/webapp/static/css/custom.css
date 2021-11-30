@@ -153,3 +153,12 @@
     font-size: 16px;
     color: white;
 }
+
+body {
+    background-image: linear-gradient(to right top, #ffc200, #abda47, #4be393, #00e2d7, #00d9ff);
+    background-attachment: fixed;
+}
+
+.col {
+    margin-bottom: 20px;
+}
