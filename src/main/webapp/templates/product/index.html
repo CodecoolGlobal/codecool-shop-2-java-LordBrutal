@@ -35,31 +35,33 @@
     <h1>Codecool Shop</h1>
 </div>
 
-<div class="container">
+<div class="filter-box">
+    <form action="/" method="get">
+        <label for="category">Filter by Category: </label>
+        <select name="categories" id="category">
+            <option value="" selected>Choose category</option>
+            <option th:each="cat,iterStat : ${categories}" th:value="${cat.getId()}" th:text="${cat.getName()}"></option>
+        </select>
+
+        <label for="supply">Filter by Supplier: </label>
+        <select name="supplier" id="supply">
+            <option value="" selected>Choose supplier</option>
+            <option th:each="supp,iterStat : ${suppliers}" th:value="${supp.getId()}" th:text="${supp.getName()}"></option>
+        </select>
+
+        <input type="submit" value="Submit">
+    </form>
+
+
+</div>
+
+<div class="container" th:each="cat,iterStat : ${categories}">
     <div class="card">
-        <strong th:text="${category.name}">Category Title</strong>
+        <strong th:text="${cat.name}">Category Title</strong>
     </div>
-    <div class="filter-box">
-        <form action="/" method="get">
-            <label for="category">Filter by Category: </label>
-            <select name="categories" id="category">
-                <option value="" selected>Choose category</option>
-                <option th:value="${category.name}" th:text="${category.name}"></option>
-            </select>
 
-            <label for="supply">Filter by Supplier: </label>
-            <select name="supplier" id="supply">
-                <option value="" selected >Choose supplier</option>
-                <option th:each="supp,iterStat : ${products}" th:text="${supp.getSupplier().name}"></option>
-            </select>
-
-            <input type="submit" value="Submit">
-        </form>
-
-
-    </div>
     <div id="products" class="row">
-        <div class="col col-sm-12 col-md-6 col-lg-4" th:each="prod,iterStat : ${products}">
+        <div class="col col-sm-12 col-md-6 col-lg-4" th:each="prod,iterStat : ${cat.getProducts()}">
             <div class="card">
                 <img class="" src="http://placehold.it/400x250/000/fff" th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt="" />
                 <div class="card-header">
