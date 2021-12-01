@@ -8,8 +8,10 @@ function addCartbutton(){
 function addToCart(e){
     const productId = e.target.value;
     const productPiece = e.target.parentNode.children[1].children[0].value;
+    const productName = e.target.parentNode.parentNode.parentNode.querySelector(".card-title").innerText
     const item = {
         "id": productId,
+        "name": productName,
         "piece": productPiece,
     };
     saveItemIntoStorage(item)
@@ -19,7 +21,7 @@ function saveItemIntoStorage(item){
     let items = JSON.parse(sessionStorage.getItem("cart"));
     if (items == null){
         items = [item];
-        console.log(items)
+        //console.log(items)
     }else {
         let isOncard = false;
         for (let i = 0; i < items.length; i++) {
@@ -33,9 +35,54 @@ function saveItemIntoStorage(item){
         }
     }
     sessionStorage.setItem("cart", JSON.stringify(items));
-    console.log(sessionStorage.getItem("cart"));
+    cartOpenButton(sessionStorage.getItem("cart"))
 }
 
+function cartOpenButton() {
+    console.log(sessionStorage.getItem("cart"))
+    let items = JSON.parse(sessionStorage.getItem("cart"));
 
-addCartbutton();
+    let modalContent = document.querySelector(".modal-content");
+    modalContent.innerHTML = "";
+
+    let closeButton = document.createElement("span");
+    closeButton.classList.add("close");
+    closeButton.innerHTML = "&times;";
+    let header = document.createElement("h3");
+    header.innerText = "Cart Details";
+
+    modalContent.appendChild(closeButton);
+    modalContent.appendChild(header);
+
+    let ul = document.createElement("ul");
+    for (let i = 0; i < items.length; i++) {
+        let li = document.createElement("li");
+        li.innerText = items[i].name + " " + "id:" +items[i].id + " " + "piece: " + items[i].piece
+        ul.appendChild(li)
+    }
+    modalContent.appendChild(ul);
+
+    const modal = document.getElementById("myModal");
+    const btn = document.getElementById("myBtn");
+    const span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+// When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+}
+
+function main() {
+    addCartbutton();
+    cartOpenButton();
+}
+
+main();
+
+
 
