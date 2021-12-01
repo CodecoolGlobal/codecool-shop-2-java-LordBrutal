@@ -38,9 +38,17 @@ function saveItemIntoStorage(item){
     cartOpenButton(sessionStorage.getItem("cart"))
 }
 
+async function fetchUrl(url) {
+    const response = await fetch(url);
+    return response.json();
+}
+
+
 function cartOpenButton() {
     console.log(sessionStorage.getItem("cart"))
     let items = JSON.parse(sessionStorage.getItem("cart"));
+
+    fetchUrl("/cart?cart=" + sessionStorage.getItem("cart"));
 
     let modalContent = document.querySelector(".modal-content");
     modalContent.innerHTML = "";
