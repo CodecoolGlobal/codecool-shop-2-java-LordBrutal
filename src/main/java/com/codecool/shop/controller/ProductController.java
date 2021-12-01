@@ -18,9 +18,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/"})
 public class ProductController extends HttpServlet {
@@ -31,25 +33,33 @@ public class ProductController extends HttpServlet {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         ProductService productService = new ProductService(productDataStore,productCategoryDataStore);
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        List<Product> products = new ArrayList<>();
+        int categoryId;
 
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
         if(req.getParameter("categories") != null || req.getParameter("supplier") != null) {
             if(!req.getParameter("categories").equals("")) {
-                int categoryId = Integer.parseInt(req.getParameter("categories"));
-                context.setVariable("products", productService.getProductsForCategory(categoryId));
+                categoryId = Integer.parseInt(req.getParameter("categories"));
+                products = productService.getProductsForCategory(categoryId);
             }
-            else if(!req.getParameter("supplier").equals("")){
+            if(!req.getParameter("supplier").equals("")){
                 int supplyId = Integer.parseInt(req.getParameter("supplier"));
-                List<Product> products = supplierDataStore.find(supplyId).getProducts();
-                context.setVariable("products", products);
-            } else {
-                context.setVariable("products", productService.getAllProducts());
+
+                if (products.size() > 0) {
+                    products = products.stream()
+                            .filter(op -> op.getSupplier().getId() == supplyId)
+                            .collect(Collectors.toList());
+                } else {
+                    products = supplierDataStore.find(supplyId).getProducts();
+                }
             }
         } else {
-            context.setVariable("products", productService.getAllProducts());
+            products = productService.getAllProducts();
         }
+
+        context.setVariable("products", products);
         context.setVariable("categories", productCategoryDataStore.getAll());
         context.setVariable("suppliers", supplierDataStore.getAll());
         // // Alternative setting of the template context
