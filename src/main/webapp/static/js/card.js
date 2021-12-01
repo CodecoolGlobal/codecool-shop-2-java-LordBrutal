@@ -48,7 +48,8 @@ function cartOpenButton() {
     console.log(sessionStorage.getItem("cart"))
     let items = JSON.parse(sessionStorage.getItem("cart"));
 
-    fetchUrl("/cart?cart=" + sessionStorage.getItem("cart"));
+    let data = fetchUrl("/cart?cart=" + sessionStorage.getItem("cart"));
+    data.then(data => {console.log(data)});
 
     let modalContent = document.querySelector(".modal-content");
     modalContent.innerHTML = "";
