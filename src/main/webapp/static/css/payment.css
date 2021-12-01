@@ -73,19 +73,21 @@
 }
 
 .exp-wrapper {
+    border-radius: 1px;
     margin-top: 8px;
     margin-bottom: 10px;
     position: relative;
-    border: 1px solid #aaa;
+    border: 1px solid #8f8e8e;
     display: flex;
     width: 300px;
     justify-content: space-around;
-    height: 36px;
-    line-height: 36px;
-    font-size: 24px;
+    height: 24px;
+    line-height: 20px;
+    font-size: 20px;
 }
 
 .exp-wrapper:after {
+    margin-top: 2px;
     content: '/';
     position: absolute;
     left: 50%;
@@ -94,6 +96,8 @@
 }
 
 input.exp {
+    margin-top: 5px;
+    margin-bottom: 5px;
     float: left;
     font-family: monospace;
     border: 0;
