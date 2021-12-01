@@ -25,11 +25,20 @@ function cardBtnClickEventHandler(event) {
                 </div>
                 <label for="cvv_code">CVV code</label><br>
                 <input id="cvv_code" type="password" required><br>
-                <button type="button">Submit</button>
+                <button type="button" id="submit_card">Submit</button>
                 </form>
 
             </div>`
+    const cardSubmit = document.querySelector("#submit_card");
+    cardSubmit.addEventListener("click", () => {
+        console.log("hello");
+    })
     cardModal.style.display = "block";
+
+    const closeButton = document.querySelector(".close");
+    closeButton.addEventListener("click", () => {
+        cardModal.style.display = "none";
+    })
 }
 
 
