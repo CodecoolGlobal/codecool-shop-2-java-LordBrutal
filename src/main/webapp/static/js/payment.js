@@ -30,8 +30,32 @@ function cardBtnClickEventHandler(event) {
 
             </div>`
     const cardSubmit = document.querySelector("#submit_card");
-    cardSubmit.addEventListener("click", () => {
-        console.log("hello");
+    cardSubmit.addEventListener("click", async () => {
+        const cardNumber = document.querySelector("#card_number");
+        const cardHolder = document.querySelector("#card_holder");
+        const expirationDateYear = document.querySelector("#year");
+        const expirationDateMonth = document.querySelector("#month");
+        const cvvCode = document.querySelector("#cvv_code");
+
+        const creditCard = {
+            "cardNumber": cardNumber.value,
+            "cardHolder": cardHolder.value,
+            "expYear": expirationDateYear.value,
+            "expMonth": expirationDateMonth.value,
+            "cvv": cvvCode.value
+        }
+
+        const creditCardJson = JSON.stringify(creditCard);
+        const url = `http://localhost:8888/payment/validation?card_infos=${creditCardJson}`;
+        let response = await fetchUrl(url);
+        if (response===false) {
+            window.location.href = "/";
+        }
+        else {
+            window.location.href = "/confirmation";
+        }
+
+
     })
     cardModal.style.display = "block";
 
@@ -41,5 +65,9 @@ function cardBtnClickEventHandler(event) {
     })
 }
 
+async function fetchUrl(url) {
+    const rawResponse = await fetch(url);
+    return await rawResponse.json();
+}
 
 main();
