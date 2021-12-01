@@ -26,55 +26,62 @@ public class CartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
+        if (req.getParameter("cart") != null) {
+            String items = req.getParameter("cart");
+            System.out.println(items);
 
-        String items = req.getParameter("cart");
-        System.out.println(items);
+            PrintWriter out = resp.getWriter();
 
-        PrintWriter out = resp.getWriter();
+            ProductDao productDataStore = ProductDaoMem.getInstance();
 
-        ProductDao productDataStore = ProductDaoMem.getInstance();
+            Gson gson = new Gson();
+            Type merchantListType = new TypeToken<List<CartItem>>() {
+            }.getType();
+            List<CartItem> cartItems = gson.fromJson(String.valueOf(items), merchantListType);
 
-        Gson gson = new Gson();
-        Type merchantListType = new TypeToken<List<CartItem>>() {}.getType();
-        List<CartItem> cartItems = gson.fromJson(String.valueOf(items), merchantListType);
+            StringBuilder json = new StringBuilder(); //TODO: Refactor this
+            json.append("[");
+            for (CartItem cartItem : cartItems) {
+                Product product = productDataStore.find(cartItem.getId());
+                int finalPrice = cartItem.getPiece() * Integer.parseInt(String.valueOf(product.getDefaultPrice()));
+                json.append("{");
+                json.append("\"");
+                json.append("id");
+                json.append("\":");
+                json.append("\"");
+                json.append(product.getId());
+                json.append("\"");
+                json.append(",");
+                json.append("\"");
+                json.append("name");
+                json.append("\":");
+                json.append("\"");
+                json.append(product.getName());
+                json.append("\"");
+                json.append(",");
+                json.append("\"");
+                json.append("pieces");
+                json.append("\":");
+                json.append("\"");
+                json.append(cartItem.getPiece());
+                json.append("\"");
+                json.append(",");
+                json.append("\"");
+                json.append("price");
+                json.append("\":");
+                json.append("\"");
+                json.append(finalPrice);
+                json.append("\"");
+                json.append("}");
+                json.append(",");
+            }
 
-        StringBuilder json = new StringBuilder(); //TODO: Refactor this
-        json.append("[");
-        for (CartItem cartItem : cartItems) {
-            Product product = productDataStore.find(cartItem.getId());
-            System.out.println(product.getPrice());
-            System.out.println(cartItem.getPiece());
-            json.append("{");
-            json.append("\"");
-            json.append("id");
-            json.append("\":");
-            json.append("\"");
-            json.append(product.getId());
-            json.append("\"");
-            json.append(",");
-            json.append("\"");
-            json.append("name");
-            json.append("\":");
-            json.append("\"");
-            json.append(product.getName());
-            json.append("\"");
-            json.append(",");
-            json.append("\"");
-            json.append("price");
-            json.append("\":");
-            json.append("\"");
-            json.append(product.getPrice());
-            json.append("\"");
-            json.append("}");
-            json.append(",");
+
+            json.append("]");
+            json.deleteCharAt(json.length() - 2);
+
+            out.println(json);
+
         }
-
-
-        json.append("]");
-        json.deleteCharAt(json.length() -2);
-
-        out.println(json);
-
-
     }
 }
