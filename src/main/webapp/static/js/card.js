@@ -46,10 +46,9 @@ async function fetchUrl(url) {
 
 function cartOpenButton() {
     console.log(sessionStorage.getItem("cart"))
-    let items = JSON.parse(sessionStorage.getItem("cart"));
 
     let data = fetchUrl("/cart?cart=" + sessionStorage.getItem("cart"));
-    data.then(data => {console.log(data)});
+    data.then(data => {console.log(data)
 
     let modalContent = document.querySelector(".modal-content");
     modalContent.innerHTML = "";
@@ -64,9 +63,9 @@ function cartOpenButton() {
     modalContent.appendChild(header);
 
     let ul = document.createElement("ul");
-    for (let i = 0; i < items.length; i++) {
+    for (let i = 0; i < data.length; i++) {
         let li = document.createElement("li");
-        li.innerText = items[i].name + " " + "id:" +items[i].id + " " + "piece: " + items[i].piece
+        li.innerText = data[i].name + " " + "id:" +data[i].id + " " + "piece: " + data[i].pieces
         ul.appendChild(li)
     }
     modalContent.appendChild(ul);
@@ -83,7 +82,7 @@ function cartOpenButton() {
     span.onclick = function() {
         modal.style.display = "none";
     }
-
+    });
 }
 
 function main() {
