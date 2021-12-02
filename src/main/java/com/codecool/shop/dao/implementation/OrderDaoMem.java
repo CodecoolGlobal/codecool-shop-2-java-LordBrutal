@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDaoMem {
+    private String name;
     private boolean paymentSuccess = false;
     private List<CartItem> cartItems = new ArrayList<>();
     private static OrderDaoMem instance = null;
@@ -48,5 +49,13 @@ public class OrderDaoMem {
 
     public void setPaymentSuccess(boolean paymentSuccess) {
         this.paymentSuccess = paymentSuccess;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -49,6 +49,7 @@ public class CartController extends HttpServlet {
                 total += finalPrice;
                 cartItem.setSumItemPrice(finalPrice);
                 cartItem.setPrice(Integer.parseInt(String.valueOf(product.getDefaultPrice())));
+                cartItem.setName(product.getName());
             }
 
             orderDaoMem.setTotalPrice(total);
