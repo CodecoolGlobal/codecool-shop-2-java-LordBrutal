@@ -1,17 +1,12 @@
 package com.codecool.shop.config;
 
-import com.codecool.shop.dao.CreditCardDao;
-import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.CreditCardDaoMem;
-import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
-import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.dao.*;
+import com.codecool.shop.dao.implementation.*;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 import com.codecool.shop.model.paymentmodel.CreditCard;
+import com.codecool.shop.model.paymentmodel.PayPalAccount;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -27,6 +22,7 @@ public class Initializer implements ServletContextListener {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
         CreditCardDao creditCardDataStore = CreditCardDaoMem.getInstance();
+        PayPalAccountDao payPalAccountDataStore = PayPalAccountDaoMem.getInstance();
 
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
@@ -70,5 +66,9 @@ public class Initializer implements ServletContextListener {
         productDataStore.add(new Product("Toshiba g450", new BigDecimal("30"), "USD", "A bit wacky design", phone, toshiba));
 
         creditCardDataStore.add(new CreditCard("123456789", "Kis Pista", (byte) 21, (byte)12, (short)123));
+        creditCardDataStore.add(new CreditCard("987654321", "Nagy Géza", (byte) 23, (byte) 12, (short)321));
+
+        payPalAccountDataStore.add(new PayPalAccount("kispista", "kispista123"));
+        payPalAccountDataStore.add(new PayPalAccount("nagygéza", "nagygéza321"));
     }
 }
