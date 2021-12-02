@@ -8,10 +8,9 @@ function addCartbutton(){
 function addToCart(e){
     const productId = e.target.value;
     const productPiece = e.target.parentNode.children[1].children[0].value;
-    const productName = e.target.parentNode.parentNode.parentNode.querySelector(".card-title").innerText
+
     const item = {
         "id": productId,
-        "name": productName,
         "piece": productPiece,
     };
     saveItemIntoStorage(item)
@@ -21,7 +20,7 @@ function saveItemIntoStorage(item){
     let items = JSON.parse(sessionStorage.getItem("cart"));
     if (items == null){
         items = [item];
-        //console.log(items)
+
     }else {
         let isOncard = false;
         for (let i = 0; i < items.length; i++) {
@@ -35,7 +34,9 @@ function saveItemIntoStorage(item){
         }
     }
     sessionStorage.setItem("cart", JSON.stringify(items));
-    cartOpenButton(sessionStorage.getItem("cart"))
+    if(sessionStorage.getItem("cart") !== null || sessionStorage.getItem("cart") !== undefined) {
+        cartOpenButton();
+    }
 }
 
 async function fetchUrl(url) {
@@ -49,9 +50,9 @@ function cartOpenButton() {
 
     let data = fetchUrl("/cart?cart=" + sessionStorage.getItem("cart"));
     data.then(data => {console.log(data)
-
+        if (data !== null || data !== undefined) {
     let modalContent = document.querySelector(".modal-content");
-    modalContent.innerHTML = "";
+        modalContent.innerHTML = "";
 
     let closeButton = document.createElement("span");
     closeButton.classList.add("close");
@@ -59,16 +60,46 @@ function cartOpenButton() {
     let header = document.createElement("h3");
     header.innerText = "Cart Details";
 
+    let table = document.createElement("table")
+        table.setAttribute("id", "customers");
+        let tr = document.createElement("tr")
+            let thname = document.createElement("th")
+            thname.innerText = "Name"
+            let thpieces = document.createElement("th")
+                thpieces.innerText ="price"
+            let thprice = document.createElement("th")
+                thprice.innerText = "price"
+
+        tr.appendChild(thname);
+        tr.appendChild(thpieces);
+        tr.appendChild(thprice);
+        table.appendChild(tr);
+        for (const element of data.cartItems) {
+            let tbody = document.createElement("tr")
+                let tdname = document.createElement("td")
+                    tdname.innerText = element.name;
+            let tdpieces = document.createElement("td")
+                tdpieces.innerText = element.pieces;
+            let tdprice = document.createElement("td")
+                tdprice.innerText = element.price;
+
+            tbody.appendChild(tdname);
+            tbody.appendChild(tdpieces);
+            tbody.appendChild(tdprice);
+            table.appendChild(tbody);
+        }
+
+
+            let totalDisplay = document.createElement("h3")
+            totalDisplay.setAttribute("id", "total");
+            totalDisplay.innerText = data.totalPrice
+
     modalContent.appendChild(closeButton);
     modalContent.appendChild(header);
+    modalContent.appendChild(table);
+    modalContent.appendChild(totalDisplay);
 
-    let ul = document.createElement("ul");
-    for (let i = 0; i < data.length; i++) {
-        let li = document.createElement("li");
-        li.innerText = data[i].name + " " + "id:" +data[i].id + " " + "piece: " + data[i].pieces
-        ul.appendChild(li)
-    }
-    modalContent.appendChild(ul);
+
 
     const modal = document.getElementById("myModal");
     const btn = document.getElementById("myBtn");
@@ -82,12 +113,15 @@ function cartOpenButton() {
     span.onclick = function() {
         modal.style.display = "none";
     }
+            }
     });
 }
 
 function main() {
     addCartbutton();
-    cartOpenButton();
+    if(sessionStorage.getItem("cart") !== null || sessionStorage.getItem("cart") !== undefined) {
+        cartOpenButton();
+    }
 }
 
 main();
