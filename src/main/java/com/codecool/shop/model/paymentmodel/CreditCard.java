@@ -20,22 +20,6 @@ public class CreditCard {
         return cardNumber;
     }
 
-    public String getCardHolder() {
-        return cardHolder;
-    }
-
-    public byte getExpYear() {
-        return expYear;
-    }
-
-    public byte getExpMonth() {
-        return expMonth;
-    }
-
-    public short getCvv() {
-        return cvv;
-    }
-
     @Override
     public String toString() {
         return "CreditCard{" +
