@@ -48,7 +48,8 @@ function cartOpenButton() {
     console.log(sessionStorage.getItem("cart"))
 
     let data = fetchUrl("/cart?cart=" + sessionStorage.getItem("cart"));
-    data.then(data => {console.log(data)
+    data.then(data => {
+        console.log(data.cartItems)
 
     let modalContent = document.querySelector(".modal-content");
     modalContent.innerHTML = "";
@@ -63,9 +64,9 @@ function cartOpenButton() {
     modalContent.appendChild(header);
 
     let ul = document.createElement("ul");
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.cartItems.length; i++) {
         let li = document.createElement("li");
-        li.innerText = data[i].name + " " + "id:" +data[i].id + " " + "piece: " + data[i].pieces
+        li.innerText = data.cartItems[i].name + " " + "id:" +data.cartItems[i].id + " " + "piece: " + data.cartItems[i].pieces
         ul.appendChild(li)
     }
     modalContent.appendChild(ul);
