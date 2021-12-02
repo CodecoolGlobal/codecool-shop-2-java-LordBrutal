@@ -19,9 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {"/"})
@@ -47,26 +45,23 @@ public class ProductController extends HttpServlet {
             if(!req.getParameter("supplier").equals("")){
                 int supplyId = Integer.parseInt(req.getParameter("supplier"));
 
-                if (products.size() > 0) {
+                if (products.size() > 0) {  // both filters used (remove items that are not in supply filter)
                     products = products.stream()
                             .filter(op -> op.getSupplier().getId() == supplyId)
                             .collect(Collectors.toList());
                 } else {
-                    products = supplierDataStore.find(supplyId).getProducts();
+                    products = supplierDataStore.find(supplyId).getProducts();  //only supplier filter used
                 }
+            } else {
+                products = productService.getAllProducts();     // when empty filter is submitted load all
             }
         } else {
-            products = productService.getAllProducts();
+            products = productService.getAllProducts();     // default main page load
         }
 
         context.setVariable("products", products);
         context.setVariable("categories", productCategoryDataStore.getAll());
         context.setVariable("suppliers", supplierDataStore.getAll());
-        // // Alternative setting of the template context
-        // Map<String, Object> params = new HashMap<>();
-        // params.put("category", productCategoryDataStore.find(1));
-        // params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
-        // context.setVariables(params);
         engine.process("product/index.html", context, resp.getWriter());
     }
 
