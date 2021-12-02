@@ -7,7 +7,7 @@ function main() {
     cardBtn.addEventListener("click", cardBtnClickEventHandler);
     payPalBtn.addEventListener("click", payPalBtnClickEventHandler);
 }
-function cardBtnClickEventHandler(event) {
+function cardBtnClickEventHandler() {
     const cardModal = document.querySelector("#paymentModal");
     const cardModalContent = document.querySelector(".modal-content");
     cardModalContent.innerHTML = "";
@@ -46,14 +46,18 @@ function cardBtnClickEventHandler(event) {
         }
 
         const creditCardJson = JSON.stringify(creditCard);
-        const url = `http://localhost:8888/payment/validation?card_infos=${creditCardJson}`;
-        let response = await fetchUrl(url);
-        if (response===false) {
-            window.location.href = "/";
+        console.log(creditCardJson);
+        if (creditCardJson!=="{}") {
+            const url = `http://localhost:8888/payment/validation?card_infos=${creditCardJson}`;
+            let response = await fetchUrl(url);
+            if (response===false) {
+                window.location.href = "/";
+            }
+            else {
+                window.location.href = "/confirmation";
+            }
         }
-        else {
-            window.location.href = "/confirmation";
-        }
+
 
 
     })
@@ -63,6 +67,35 @@ function cardBtnClickEventHandler(event) {
     closeButton.addEventListener("click", () => {
         cardModal.style.display = "none";
     })
+}
+
+function payPalBtnClickEventHandler() {
+    const cardModal = document.querySelector("#paymentModal");
+    let modalContentNodeList = [];
+
+    let labelUserName = createLabelElement("username", "User name");
+    let inputUserName = createInputElement("text", "username", true, "John Doe");
+    let labelPassword = createLabelElement("user-password", "Password");
+    let inputPassword = createInputElement("password", "user-password", true, "");
+
+    modalContentNodeList.push(labelUserName, inputUserName, labelPassword, inputPassword);
+}
+
+function createLabelElement(inputId, innerText) {
+    let label = document.createElement('label');
+    label.innerText = innerText;
+    label.for = inputId;
+    return label;
+}
+
+function createInputElement(type, id, required, placeholder) {
+    let input = document.createElement('input');
+    input.type =  type;
+    input.id = id;
+    input.required = required;
+    input.placeholder = placeholder;
+
+    return input;
 }
 
 async function fetchUrl(url) {
