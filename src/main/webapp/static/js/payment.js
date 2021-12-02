@@ -50,7 +50,7 @@ function cardBtnClickEventHandler() {
             const url = `http://localhost:8888/payment/validation?card_infos=${creditCardJson}`;
             let response = await fetchUrl(url);
             if (response===false) {
-                window.location.href = "/";
+                window.location.href = "/payment";
             }
             else {
                 window.location.href = "/confirmation";
@@ -127,7 +127,7 @@ async function submitPayPalClickEventHandler() {
     const url = `http://localhost:8888/payment/validation?paypal_infos=${payPalCredentialJson}`;
     let response = await fetchUrl(url);
     if (response===false) {
-        window.location.href = "/";
+        window.location.href = "/payment";
     }
     else {
         window.location.href = "/confirmation";
