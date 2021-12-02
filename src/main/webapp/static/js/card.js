@@ -50,7 +50,7 @@ function cartOpenButton() {
 
     let data = fetchUrl("/cart?cart=" + sessionStorage.getItem("cart"));
     data.then(data => {console.log(data)
-        if (data !== null || data !== undefined) {
+        if (data !== null || true) {
     let modalContent = document.querySelector(".modal-content");
         modalContent.innerHTML = "";
 
@@ -79,7 +79,7 @@ function cartOpenButton() {
                 let tdname = document.createElement("td")
                     tdname.innerText = element.name;
             let tdpieces = document.createElement("td")
-                tdpieces.innerText = element.pieces;
+                tdpieces.innerText = element.piece;
             let tdprice = document.createElement("td")
                 tdprice.innerText = element.price;
 
