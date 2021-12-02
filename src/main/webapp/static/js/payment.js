@@ -46,7 +46,6 @@ function cardBtnClickEventHandler() {
         }
 
         const creditCardJson = JSON.stringify(creditCard);
-        console.log(creditCardJson);
         if (creditCardJson!=="{}") {
             const url = `http://localhost:8888/payment/validation?card_infos=${creditCardJson}`;
             let response = await fetchUrl(url);
@@ -57,9 +56,6 @@ function cardBtnClickEventHandler() {
                 window.location.href = "/confirmation";
             }
         }
-
-
-
     })
     cardModal.style.display = "block";
 
@@ -116,7 +112,26 @@ function buildModalContent (nodeList) {
     const submitButton = document.createElement('button');
     submitButton.id = "submit-button";
     submitButton.innerText = "Submit";
+    submitButton.addEventListener("click", submitPayPalClickEventHandler);
     modalContent.appendChild(submitButton);
+}
+
+async function submitPayPalClickEventHandler() {
+    const usernameInput = document.querySelector('#username');
+    const passwordInput = document.querySelector('#user-password');
+    const payPalCredentials = {
+        "username": usernameInput.value,
+        "password": passwordInput.value
+    }
+    const payPalCredentialJson = JSON.stringify(payPalCredentials);
+    const url = `http://localhost:8888/payment/validation?paypal_infos=${payPalCredentialJson}`;
+    let response = await fetchUrl(url);
+    if (response===false) {
+        window.location.href = "/";
+    }
+    else {
+        window.location.href = "/confirmation";
+    }
 }
 
 async function fetchUrl(url) {
