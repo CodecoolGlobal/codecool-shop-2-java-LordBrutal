@@ -108,5 +108,10 @@ input.exp {
 }
 
 input {
+    display: flex;
     margin-bottom: 10px;
+}
+
+label {
+    display: flex;
 }
