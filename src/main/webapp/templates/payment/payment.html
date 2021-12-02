@@ -13,7 +13,7 @@
 <section>
     <form action="#" method="post">
         <div class="card">
-            <h2 th:text="'The total price of the order is ' + ${order.getTotalPrice()}"></h2>
+            <h2 th:text="'The total price of the order is ' + ${order.getTotalPrice()}+ 'USD'" ></h2>
             <h3>Choose payment method below!</h3>
             <div class="button-container">
                 <button type="button" class="paypalBtn"><img src="/static/img/pay_pal_img.png" alt="" class="panel-img"></button>
