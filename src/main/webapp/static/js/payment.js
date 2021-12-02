@@ -70,7 +70,6 @@ function cardBtnClickEventHandler() {
 }
 
 function payPalBtnClickEventHandler() {
-    const cardModal = document.querySelector("#paymentModal");
     let modalContentNodeList = [];
 
     let labelUserName = createLabelElement("username", "User name");
@@ -79,6 +78,7 @@ function payPalBtnClickEventHandler() {
     let inputPassword = createInputElement("password", "user-password", true, "");
 
     modalContentNodeList.push(labelUserName, inputUserName, labelPassword, inputPassword);
+    buildModalContent(modalContentNodeList);
 }
 
 function createLabelElement(inputId, innerText) {
@@ -96,6 +96,16 @@ function createInputElement(type, id, required, placeholder) {
     input.placeholder = placeholder;
 
     return input;
+}
+
+function buildModalContent (nodeList) {
+    let modalContent = document.querySelector('.modal-content');
+    nodeList.forEach((node) => modalContent.appendChild(node));
+    const submitButton = document.createElement('button');
+    submitButton.id = "submit-button";
+    submitButton.innerText = "Submit";
+    submitButton.addEventListener("click", payPalSubmitBtnClickEventHandler);
+    modalContent.appendChild(submitButton);
 }
 
 async function fetchUrl(url) {
