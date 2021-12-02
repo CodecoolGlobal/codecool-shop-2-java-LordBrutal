@@ -3,6 +3,7 @@ package com.codecool.shop.controller;
 import com.codecool.shop.dao.CreditCardDao;
 import com.codecool.shop.dao.PayPalAccountDao;
 import com.codecool.shop.dao.implementation.CreditCardDaoMem;
+import com.codecool.shop.dao.implementation.OrderDaoMem;
 import com.codecool.shop.dao.implementation.PayPalAccountDaoMem;
 import com.codecool.shop.model.paymentmodel.CreditCard;
 import com.codecool.shop.model.paymentmodel.PayPalAccount;
@@ -31,14 +32,18 @@ public class PaymentValidationController extends HttpServlet {
         var requestParameterPayPal = request.getParameter("paypal_infos");
 
         PrintWriter out = response.getWriter();
-
+        OrderDaoMem orderDao = OrderDaoMem.getInstance();
         if (requestParameterCard!=null) {
             CreditCard creditCard = new Gson().fromJson(requestParameterCard, CreditCard.class);
             CreditCard validCreditCard = creditCardDataStore.findCard(creditCard.getCardNumber());
             if (validCreditCard == null) {
                 out.println(false);
             } else {
+                if(creditCard.equals(validCreditCard)){
+                    orderDao.setPaymentSuccess();
+                }
                 out.println(creditCard.equals(validCreditCard));
+
             }
         }
         else if (requestParameterPayPal!=null) {
@@ -47,6 +52,9 @@ public class PaymentValidationController extends HttpServlet {
             if (validAccount == null) {
                 out.println(false);
             } else {
+                if(payPalAccount.equals(validAccount)){
+                    orderDao.setPaymentSuccess();
+                }
                 out.println(payPalAccount.equals(validAccount));
             }
         }
