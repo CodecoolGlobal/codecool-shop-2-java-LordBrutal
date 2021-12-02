@@ -1,11 +1,14 @@
 
 .card {
     background-color: lightgrey;
-    width: auto;
+    width: 50%;
     height: auto;
     position: relative;
     justify-content: center;
-    margin: 25%;
+    margin-top: 180px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 
 .card h2,h3 {
@@ -20,14 +23,12 @@
 .paypalBtn {
     background-color: lightgrey;
     border-style: hidden;
-    padding-left: 36%;
     margin-bottom: 1em;
 }
 
 .cardBtn {
     background-color: lightgrey;
     border-style: hidden;
-    padding-right: 15%;
     margin-bottom: 1em;
 }
 
@@ -44,13 +45,13 @@
     top: 20%;
     width: 60%;
     height: 60%;
-    background-color: gray;
-    opacity: 90%;
+    background-color: rgba(128, 128, 128, 0.47);
 }
 
 .modal-content {
     font-size: x-large;
-    background-color: #fefefe;
+    background-image: linear-gradient(to left bottom, #ffc200, #abda47, #4be393, #00e2d7, #00d9ff);
+    background-attachment: fixed;
     margin: 10% auto;
     padding: 20px;
     border: 1px solid #888;
@@ -114,4 +115,19 @@ input {
 
 label {
     display: flex;
+}
+
+body {
+    background-image: linear-gradient(to right top, #ffc200, #abda47, #4be393, #00e2d7, #00d9ff);
+    background-attachment: fixed;
+}
+
+section {
+    position: relative;
+    align-content: center;
+    margin-top: -30px;
+}
+
+.button-container {
+    text-align: center;
 }
