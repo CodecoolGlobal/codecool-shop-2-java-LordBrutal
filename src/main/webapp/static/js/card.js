@@ -98,8 +98,15 @@ function cartOpenButton() {
     modalContent.appendChild(header);
     modalContent.appendChild(table);
     modalContent.appendChild(totalDisplay);
+    let button = document.createElement("button");
+    button.style = "width: max-content"
+    button.value = "submit";
+    button.innerText = "checkout"
+    modalContent.append(button);
 
-
+    button.addEventListener("click", function() {
+        window.location.href = "#";
+    } )
 
     const modal = document.getElementById("myModal");
     const btn = document.getElementById("myBtn");
