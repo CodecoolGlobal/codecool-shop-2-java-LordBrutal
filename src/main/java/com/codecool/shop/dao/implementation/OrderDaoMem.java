@@ -8,6 +8,10 @@ import java.util.List;
 
 public class OrderDaoMem {
     private String name;
+    private String email;
+    private String phoneNumber;
+    private String billingAddress;
+    private String shippingAddress;
     private boolean paymentSuccess = false;
     private List<CartItem> cartItems = new ArrayList<>();
     private static OrderDaoMem instance = null;
@@ -49,6 +53,38 @@ public class OrderDaoMem {
 
     public void setPaymentSuccess(boolean paymentSuccess) {
         this.paymentSuccess = paymentSuccess;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getBillingAddress() {
+        return billingAddress;
+    }
+
+    public void setBillingAddress(String billingAddress) {
+        this.billingAddress = billingAddress;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
 
     public String getName() {
