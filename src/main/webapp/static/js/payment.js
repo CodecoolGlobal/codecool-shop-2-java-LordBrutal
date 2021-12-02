@@ -70,6 +70,7 @@ function cardBtnClickEventHandler() {
 }
 
 function payPalBtnClickEventHandler() {
+    const cardModal = document.querySelector('.modal');
     let modalContentNodeList = [];
 
     let labelUserName = createLabelElement("username", "User name");
@@ -79,6 +80,8 @@ function payPalBtnClickEventHandler() {
 
     modalContentNodeList.push(labelUserName, inputUserName, labelPassword, inputPassword);
     buildModalContent(modalContentNodeList);
+
+    cardModal.style.display = "block";
 }
 
 function createLabelElement(inputId, innerText) {
@@ -99,12 +102,20 @@ function createInputElement(type, id, required, placeholder) {
 }
 
 function buildModalContent (nodeList) {
+    const cardModal = document.querySelector('.modal');
     let modalContent = document.querySelector('.modal-content');
+    modalContent.innerHTML = "";
+    const closeButton = document.createElement('span');
+    closeButton.className = "close";
+    closeButton.innerText = "x";
+    closeButton.addEventListener("click", () => {
+        cardModal.style.display = "none";
+    })
+    modalContent.appendChild(closeButton);
     nodeList.forEach((node) => modalContent.appendChild(node));
     const submitButton = document.createElement('button');
     submitButton.id = "submit-button";
     submitButton.innerText = "Submit";
-    submitButton.addEventListener("click", payPalSubmitBtnClickEventHandler);
     modalContent.appendChild(submitButton);
 }
 
