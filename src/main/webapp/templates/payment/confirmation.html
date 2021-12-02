@@ -1,11 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Successfully payment</title>
 </head>
 <body>
 <h1>SUCCESS</h1>
+<h2 th:text="'Your name: ' + ${order.getName()}"></h2>
+<h2 th:text="'Your email: '+${order.getEmail()}"></h2>
+<h2 th:text="'Your Billing Address: '+${order.getBillingAddress()}"></h2>
+<h2 th:text="'Your Shipping Address: '+${order.getShippingAddress()}"></h2>
+<h2 th:text="'Your Phone Number: '+ ${order.getPhoneNumber()}"></h2>
+<h2 th:text="'Total Price: ' + ${order.getTotalPrice()}"></h2>
+<div style="background-color:rgba(255,255,255,0.25);display:inline-table;margin-bottom:20px;text-align:left;margin-right:20px" th:each="item, iterStat:${order.getCartItems()}">
+    <p style="font-size:20px;font-weight:bold;margin:0 10px 0 10px" th:text="'Product name: '+${item.getName()}"></p>
+    <p style="font-size:18px;margin:5px 10px 0 10px" th:text="'Piece: '+${item.getPiece()}"></p>
+    <p style="font-size:18px;margin:0 10px 0 10px" th:text="'Product priece: '+${item.getPrice()} + 'USD'"></p>
+    <p style="font-size:18px;margin:0 10px 0 10px">Product total price <samp style="color:red;font-weight:bold" th:text="${item.getSumItemPrice()}"></samp> USD</p>
+</div>
+<!--<h2 th:value="${order.getCartItems()}"></h2>-->
+<br>
 <button><a href="/">Go to main page</a></button>
+<script>
+    sessionStorage.clear();
+</script>
 </body>
 </html>

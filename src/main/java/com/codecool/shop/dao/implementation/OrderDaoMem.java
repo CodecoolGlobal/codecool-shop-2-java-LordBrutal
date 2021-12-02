@@ -20,6 +20,10 @@ public class OrderDaoMem {
     private OrderDaoMem() {
     }
 
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
     public void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
     }
@@ -93,5 +97,9 @@ public class OrderDaoMem {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void removeInstance(){
+        instance = null;
     }
 }

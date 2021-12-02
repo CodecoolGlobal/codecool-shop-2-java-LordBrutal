@@ -20,8 +20,8 @@ public class UserOrderInformationController extends HttpServlet {
         orderDaoMem.setName(req.getParameter("name"));
         orderDaoMem.setEmail(req.getParameter("email"));
         orderDaoMem.setPhoneNumber(req.getParameter("phone-number"));
-        orderDaoMem.setBillingAddress("billing-address");
-        orderDaoMem.setShippingAddress("shipping-address");
+        orderDaoMem.setBillingAddress(req.getParameter("billing-address"));
+        orderDaoMem.setShippingAddress(req.getParameter("shipping-address"));
 
         resp.sendRedirect("/payment");
     }
