@@ -1,5 +1,7 @@
 package com.codecool.shop.model.paymentmodel;
 
+import java.util.Objects;
+
 public class CreditCard {
 
     private String cardNumber;
@@ -18,6 +20,19 @@ public class CreditCard {
 
     public String getCardNumber() {
         return cardNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CreditCard that = (CreditCard) o;
+        return expYear == that.expYear && expMonth == that.expMonth && cvv == that.cvv && Objects.equals(cardNumber, that.cardNumber) && Objects.equals(cardHolder, that.cardHolder);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cardNumber, cardHolder, expYear, expMonth, cvv);
     }
 
     @Override
