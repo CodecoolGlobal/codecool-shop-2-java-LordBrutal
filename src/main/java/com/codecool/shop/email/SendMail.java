@@ -71,16 +71,24 @@ public class SendMail {
         }
     }
     public static String orderBuilder(String emailMessage, List<CartItem> cartItems){
-        String message = "<div style=\" background-image: linear-gradient(to right top, #ffc200, #abda47, #4be393, #00e2d7, #00d9ff); padding: 10px\"><h1>" + emailMessage + "</h1>";
+        StringBuilder message = new StringBuilder("<div style=\"background-image:linear-gradient(to right top,#ffc200,#abda47,#4be393,#00e2d7,#00d9ff);padding:10px; font-family: sans-serif;\">");
+        message.append("<h1 style=\"text-align: center\">").append(emailMessage).append("</h1>");
         for (CartItem cartItem : cartItems) {
-            String order = "<h2>Product name: " + cartItem.getName() + "<h3>";
-            order += "<h3>Piece: " + String.valueOf(cartItem.getPiece()) + "<h3>";
-            order += "<h3>Product total price: " + String.valueOf(cartItem.getPrice() * cartItem.getPiece()) + "<h3>";
-            message += order + "\n";
+            String productName = cartItem.getName();
+            String productPiece = String.valueOf(cartItem.getPiece());
+            String productPrice = String.valueOf(cartItem.getPrice());
+            String productTotalPrice = String.valueOf(cartItem.getPrice() * cartItem.getPiece());
+            String textDiv = "<div style=\"background-color: rgba(255,255,255,0.25);display:inline-table; margin-bottom: 20px; text-align: left; margin-right: 20px;\">";
+            textDiv += "<p style=\"font-size: 20px; font-weight: bold; margin: 0 10px 0 10px\">Product name: " + productName + "</p>";
+            textDiv += "<p style=\"font-size: 18px;margin: 5px 10px 0 10px\">Piece: " + productPiece + "</p>";
+            textDiv += "<p style=\"font-size: 18px;margin: 0 10px 0 10px\">Product priece: " + productPrice + " USD</p>";
+            textDiv += "<p style=\"font-size: 18px;margin: 0 10px 0 10px\">Product total price: <samp style=\"color: red; font-weight: bold\">" + productTotalPrice + "</samp> USD</p>";
+            textDiv += "</div>";
+            message.append(textDiv);
         }
-        message += "<div style=\"width:100%; text-align: center\"><h5>Thanks for your order :o</h5></div>";
-        message += "</div>";
-        return message;
+        message.append("</div>");
+        message.append("<div style=\"width:100%;text-align:center;font-size: 20px; background-color: rgba(51,51,51,0.74); margin-top: -28px; color: white;font-family: sans-serif\"><h5>Thanks for your order :o</h5></div>");
+        return message.toString();
     }
 
 }
