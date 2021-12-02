@@ -2,6 +2,7 @@ package com.codecool.shop.controller;
 
 
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.dao.implementation.OrderDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.Product;
@@ -25,6 +26,7 @@ public class CartController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        OrderDaoMem orderDaoMem = OrderDaoMem.getInstance();
 
         if (req.getParameter("cart") != null) {
             String items = req.getParameter("cart");
@@ -37,50 +39,26 @@ public class CartController extends HttpServlet {
             Gson gson = new Gson();
             Type merchantListType = new TypeToken<List<CartItem>>() {
             }.getType();
+
             List<CartItem> cartItems = gson.fromJson(String.valueOf(items), merchantListType);
 
-            StringBuilder json = new StringBuilder(); //TODO: Refactor this
-            json.append("[");
+            int total = 0;
             for (CartItem cartItem : cartItems) {
                 Product product = productDataStore.find(cartItem.getId());
                 int finalPrice = cartItem.getPiece() * Integer.parseInt(String.valueOf(product.getDefaultPrice()));
-                json.append("{");
-                json.append("\"");
-                json.append("id");
-                json.append("\":");
-                json.append("\"");
-                json.append(product.getId());
-                json.append("\"");
-                json.append(",");
-                json.append("\"");
-                json.append("name");
-                json.append("\":");
-                json.append("\"");
-                json.append(product.getName());
-                json.append("\"");
-                json.append(",");
-                json.append("\"");
-                json.append("pieces");
-                json.append("\":");
-                json.append("\"");
-                json.append(cartItem.getPiece());
-                json.append("\"");
-                json.append(",");
-                json.append("\"");
-                json.append("price");
-                json.append("\":");
-                json.append("\"");
-                json.append(finalPrice);
-                json.append("\"");
-                json.append("}");
-                json.append(",");
+                total += finalPrice;
+                cartItem.setSumItemPrice(finalPrice);
+                cartItem.setPrice(Integer.parseInt(String.valueOf(product.getDefaultPrice())));
             }
 
+            orderDaoMem.setTotalPrice(total);
+            orderDaoMem.setCartItems(cartItems);
 
-            json.append("]");
-            json.deleteCharAt(json.length() - 2);
-
+            String json = gson.toJson(orderDaoMem);
             out.println(json);
+            System.out.println(json);
+
+
 
         }
     }
