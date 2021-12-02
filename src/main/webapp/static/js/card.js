@@ -106,7 +106,6 @@ function cartOpenButton() {
                         }
                     }
                     sessionStorage.setItem("cart", JSON.stringify(newcart));
-                    console.log(sessionStorage.getItem("cart"))
                     e.target.closest("tr").remove();
                     fetchUrl("/cart?cart=" + sessionStorage.getItem("cart"))
                     cartOpenButton();
