@@ -26,16 +26,16 @@ public class ConfirmationController extends HttpServlet {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
         OrderDaoMem orderDao = OrderDaoMem.getInstance();
-        if (orderDao.isPaymentSuccess()){
-            SendMail.sendOrderEmail(orderDao.getEmail(),"Web shop Order","Your order is the following", orderDao.getCartItems());
-        }
         context.setVariable("order", orderDao);
         engine.process("/payment/confirmation.html", context, resp.getWriter());
-        Gson gson =  new Gson();
-        String json = gson.toJson(orderDao) + "\n" ;
-        BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/logFiles/orders.txt",true));
-        writer.write(json);
-        writer.close();
-        orderDao.removeInstance();
+        if (orderDao.isPaymentSuccess()){
+            SendMail.sendOrderEmail(orderDao.getEmail(),"Web shop Order","Your order is the following", orderDao.getCartItems());
+            Gson gson =  new Gson();
+            String json = gson.toJson(orderDao) + "\n" ;
+            BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/logFiles/orders.txt",true));
+            writer.write(json);
+            writer.close();
+            orderDao.removeInstance();
+        }
     }
 }
