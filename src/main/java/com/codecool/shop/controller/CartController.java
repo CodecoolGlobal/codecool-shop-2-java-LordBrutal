@@ -30,7 +30,6 @@ public class CartController extends HttpServlet {
 
         if (req.getParameter("cart") != null) {
             String items = req.getParameter("cart");
-            System.out.println(items);
 
             PrintWriter out = resp.getWriter();
 
@@ -57,10 +56,6 @@ public class CartController extends HttpServlet {
 
             String json = gson.toJson(orderDaoMem);
             out.println(json);
-            System.out.println(json);
-
-
-
         }
     }
 }
