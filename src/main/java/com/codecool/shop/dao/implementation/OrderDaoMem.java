@@ -8,7 +8,7 @@ import java.util.List;
 
 public class OrderDaoMem {
     private boolean paymentSuccess = false;
-    private List<CartItem> cartItems = new ArrayList<CartItem>();
+    private List<CartItem> cartItems = new ArrayList<>();
     private static OrderDaoMem instance = null;
     private int totalPrice;
 
@@ -36,5 +36,17 @@ public class OrderDaoMem {
 
     public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public boolean isPaymentSuccess() {
+        return paymentSuccess;
+    }
+
+    public void setPaymentSuccess(boolean paymentSuccess) {
+        this.paymentSuccess = paymentSuccess;
     }
 }
