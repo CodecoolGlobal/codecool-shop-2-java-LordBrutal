@@ -32,8 +32,8 @@ public class ConfirmationController extends HttpServlet {
         context.setVariable("order", orderDao);
         engine.process("/payment/confirmation.html", context, resp.getWriter());
         Gson gson =  new Gson();
-        String json = gson.toJson(orderDao);
-        BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/logFiles/orders.txt"));
+        String json = gson.toJson(orderDao) + "\n" ;
+        BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/logFiles/orders.txt",true));
         writer.write(json);
         writer.close();
         orderDao.removeInstance();
