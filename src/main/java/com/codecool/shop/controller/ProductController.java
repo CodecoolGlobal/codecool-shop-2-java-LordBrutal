@@ -52,8 +52,6 @@ public class ProductController extends HttpServlet {
                 } else {
                     products = supplierDataStore.find(supplyId).getProducts();  //only supplier filter used
                 }
-            } else {
-                products = productService.getAllProducts();     // when empty filter is submitted load all
             }
         } else {
             products = productService.getAllProducts();     // default main page load
