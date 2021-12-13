@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta name="author" content="Codecool" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
+    <link rel="icon" href="data:,">
+    <script src="/static/js/card.js" defer></script>
     <title>Codecool Shop</title>
 
     <!-- Bootstrap components -->
@@ -26,21 +27,51 @@
     <!-- End of Bootstrap components -->
 
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
+
 </head>
 
 <body>
 
-<div class="jumbotron text-center">
-    <h1>Codecool Shop</h1>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+    </div>
+
+</div>
+<div>
+    <ul class="navul">
+        <li class="navright">Silk Road</li>
+        <li class="navleft" id="myBtn">Cart</li>
+        <div class="filter-box container">
+            <form action="/" method="get">
+                <label for="category">Filter by Category: </label>
+                <select name="categories" id="category">
+                    <option value="" selected>Choose category</option>
+                    <option th:each="cat,iterStat : ${categories}" th:value="${cat.getId()}" th:text="${cat.getName()}"></option>
+                </select>
+
+                <label for="supply">Filter by Supplier: </label>
+                <select name="supplier" id="supply">
+                    <option value="" selected>Choose supplier</option>
+                    <option th:each="supp,iterStat : ${suppliers}" th:value="${supp.getId()}" th:text="${supp.getName()}"></option>
+                </select>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </ul>
 </div>
 
-<div class="container">
-    <div class="card">
-        <strong th:text="${category.name}">Category Title</strong>
+<div class="container" th:each="cat,iterStat : ${categories}">
+    <div class="categories" th:if="${cat.getFilteredProducts(products).size() > 0}">
+        <strong th:text="${cat.name}">Category Title</strong>
     </div>
 
     <div id="products" class="row">
-        <div class="col col-sm-12 col-md-6 col-lg-4" th:each="prod,iterStat : ${products}">
+        <div class="col col-sm-12 col-md-6 col-lg-4" th:each="prod,iterStat : ${cat.getFilteredProducts(products)}">
             <div class="card">
                 <img class="" src="http://placehold.it/400x250/000/fff" th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt="" />
                 <div class="card-header">
@@ -52,7 +83,10 @@
                         <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
                     </div>
                     <div class="card-text">
-                        <a class="btn btn-success" href="#">Add to cart</a>
+                        <button class="btn btn-success center" id="add-card" th:value="${prod.getId()}" type="button">Add to cart</button>
+                        <label>
+                            <input type="number" step="1" max="" min="1" value="1" class="btn btn-outline-secondary quantity-field">
+                        </label>
                     </div>
                 </div>
             </div>
