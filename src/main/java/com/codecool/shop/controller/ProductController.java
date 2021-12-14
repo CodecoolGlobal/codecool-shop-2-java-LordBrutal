@@ -31,31 +31,12 @@ public class ProductController extends HttpServlet {
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         ProductService productService = new ProductService(productDataStore,productCategoryDataStore);
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
-        List<Product> products = new ArrayList<>();
-        int categoryId;
-
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
-        if(req.getParameter("categories") != null || req.getParameter("supplier") != null) {
-            if(!req.getParameter("categories").equals("")) {
-                categoryId = Integer.parseInt(req.getParameter("categories"));
-                products = productService.getProductsForCategory(categoryId);
-            }
-            if(!req.getParameter("supplier").equals("")){
-                int supplyId = Integer.parseInt(req.getParameter("supplier"));
-
-                if (products.size() > 0) {  // both filters used (remove items that are not in supply filter)
-                    products = products.stream()
-                            .filter(op -> op.getSupplier().getId() == supplyId)
-                            .collect(Collectors.toList());
-                } else {
-                    products = supplierDataStore.find(supplyId).getProducts();  //only supplier filter used
-                }
-            }
-        } else {
-            products = productService.getAllProducts();     // default main page load
-        }
+        String categoryParameter = req.getParameter("categories");
+        String supplyParameter = req.getParameter("supplier");
+        List<Product> products = productService.filterProducts(categoryParameter, supplyParameter, supplierDataStore);
 
         context.setVariable("products", products);
         context.setVariable("categories", productCategoryDataStore.getAll());
