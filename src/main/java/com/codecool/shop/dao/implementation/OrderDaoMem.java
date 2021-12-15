@@ -1,10 +1,11 @@
 package com.codecool.shop.dao.implementation;
 
+import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.model.CartItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDaoMem {
+public class OrderDaoMem implements OrderDao {
     private String name;
     private String email;
     private String phoneNumber;
