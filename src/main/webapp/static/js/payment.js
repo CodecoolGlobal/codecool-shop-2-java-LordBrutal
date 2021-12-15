@@ -44,17 +44,13 @@ function cardBtnClickEventHandler() {
             "expMonth": expirationDateMonth.value,
             "cvv": cvvCode.value
         }
-
-        const creditCardJson = JSON.stringify(creditCard);
-        if (creditCardJson!=="{}") {
-            const url = `http://localhost:8888/payment/validation?card_infos=${creditCardJson}`;
-            let response = await fetchUrl(url);
-            if (response===false) {
-                window.location.href = "/payment";
-            }
-            else {
-                window.location.href = "/confirmation";
-            }
+        const url = `http://localhost:8888/payment/validation/credit-card`;
+        let response = await post(url, creditCard);
+        if (response===false) {
+            window.location.href = "/payment";
+        }
+        else {
+            window.location.href = "/confirmation";
         }
     })
     cardModal.style.display = "block";
@@ -123,9 +119,8 @@ async function submitPayPalClickEventHandler() {
         "username": usernameInput.value,
         "password": passwordInput.value
     }
-    const payPalCredentialJson = JSON.stringify(payPalCredentials);
-    const url = `http://localhost:8888/payment/validation?paypal_infos=${payPalCredentialJson}`;
-    let response = await fetchUrl(url);
+    const url = `http://localhost:8888/payment/validation/paypal`;
+    let response = await post(url, payPalCredentials);
     if (response===false) {
         window.location.href = "/payment";
     }
@@ -134,9 +129,19 @@ async function submitPayPalClickEventHandler() {
     }
 }
 
-async function fetchUrl(url) {
-    const rawResponse = await fetch(url);
-    return await rawResponse.json();
+async function post(url, payload) {
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        return await response.json();
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 main();

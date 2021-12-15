@@ -7,13 +7,16 @@ import com.codecool.shop.model.paymentmodel.CreditCard;
 import com.codecool.shop.model.paymentmodel.PayPalAccount;
 
 public class PaymentValidationService {
-    private final CreditCardDao creditCardDataStore;
-    private final PayPalAccountDao payPalAccountDataStore;
+    private CreditCardDao creditCardDataStore;
+    private PayPalAccountDao payPalAccountDataStore;
     private final OrderDaoMem orderDao = OrderDaoMem.getInstance();
 
-    public PaymentValidationService(CreditCardDao creditCardDataStore, PayPalAccountDao payPalAccountDataStore) {
-        this.creditCardDataStore = creditCardDataStore;
+    public PaymentValidationService(PayPalAccountDao payPalAccountDataStore) {
         this.payPalAccountDataStore = payPalAccountDataStore;
+    }
+
+    public PaymentValidationService(CreditCardDao creditCardDataStore) {
+        this.creditCardDataStore = creditCardDataStore;
     }
 
     public boolean validateCreditCard(CreditCard creditCard) {
