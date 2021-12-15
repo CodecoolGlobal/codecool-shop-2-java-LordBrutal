@@ -18,6 +18,7 @@ import java.sql.SQLException;
 @WebListener
 public class Initializer implements ServletContextListener {
     DataSource db;
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         try {
@@ -25,11 +26,11 @@ public class Initializer implements ServletContextListener {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        ProductDao productDataStore = ProductDaoMem.getInstance(db);
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance(db);
-        SupplierDao supplierDataStore = SupplierDaoMem.getInstance(db);
-        CreditCardDao creditCardDataStore = CreditCardDaoMem.getInstance(db);
-        PayPalAccountDao payPalAccountDataStore = PayPalAccountDaoMem.getInstance(db);
+        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        CreditCardDao creditCardDataStore = CreditCardDaoMem.getInstance();
+        PayPalAccountDao payPalAccountDataStore = PayPalAccountDaoMem.getInstance();
 
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
