@@ -35,11 +35,11 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
     @Override
     public ProductCategory find(int id) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT id, name, department, description FROM category c " +
-                    "WHERE c.id = ?";
+            String sql = "SELECT id, name, department, description FROM category " +
+                    "WHERE id = ?";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setInt(1, id);
-            ResultSet rs = conn.createStatement().executeQuery(sql);
+            ResultSet rs = st.executeQuery();
             if (!rs.next()) {
                 return null;
             }

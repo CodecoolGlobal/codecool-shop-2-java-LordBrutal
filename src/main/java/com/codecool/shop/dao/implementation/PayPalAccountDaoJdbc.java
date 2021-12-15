@@ -30,7 +30,7 @@ public class PayPalAccountDaoJdbc {
             PreparedStatement st = conn.prepareStatement(sql);
             st.setInt(1, userId);
             st.setString(2, userName);
-            ResultSet rs = conn.createStatement().executeQuery(sql);
+            ResultSet rs = st.executeQuery();
             if (!rs.next()) {
                 return null;
             }

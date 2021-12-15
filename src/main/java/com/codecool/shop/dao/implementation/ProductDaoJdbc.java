@@ -82,7 +82,7 @@ public class ProductDaoJdbc implements ProductDao {
                     "WHERE s.id = ?";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setInt(1, supplier.getId());
-            ResultSet rs = conn.createStatement().executeQuery(sql);
+            ResultSet rs = st.executeQuery();
             List<Product> result = new ArrayList<>();
             while (rs.next()) {
                 result.add(fillOutProductForm(rs));
