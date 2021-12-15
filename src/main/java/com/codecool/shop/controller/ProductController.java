@@ -14,8 +14,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 @WebServlet(urlPatterns = {"/"})
 public class ProductController extends ServletBaseModel {
@@ -26,20 +26,25 @@ public class ProductController extends ServletBaseModel {
         WebContext context = new WebContext(req, resp, req.getServletContext());
         String categoryParameter = req.getParameter("categories");
         String supplyParameter = req.getParameter("supplier");
-
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        Properties connection = getConnectionProperties();
+        String connectionType = connection.getProperty("dao");
         ProductService productService;
-        List<Product> products = new ArrayList<>();
+        List<Product> products;
+        ProductDao productDataStore;
+        ProductCategoryDao productCategoryDataStore;
+        SupplierDao supplierDataStore;
 
-        if(true) {
+        if(connectionType.equals("jdbc")) {
             productDataStore = ProductDaoJdbc.getInstance(db);
             productCategoryDataStore = ProductCategoryDaoJdbc.getInstance(db);
             supplierDataStore = SupplierDaoJdbc.getInstance(db);
+        } else {
+            productDataStore = ProductDaoMem.getInstance();
+            productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+            supplierDataStore = SupplierDaoMem.getInstance();
         }
 
-        productService = new ProductService(productDataStore,productCategoryDataStore);
+        productService = new ProductService(productDataStore,productCategoryDataStore, connectionType);
         products = productService.filterProducts(categoryParameter, supplyParameter, supplierDataStore);
 
         context.setVariable("products", products);
