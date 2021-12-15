@@ -43,7 +43,9 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
             if (!rs.next()) {
                 return null;
             }
-            return new ProductCategory(rs.getString(2), rs.getString(3), rs.getString(4));
+            ProductCategory productCategory = new ProductCategory(rs.getString(2), rs.getString(3), rs.getString(4));
+            productCategory.setId(rs.getInt(1));
+            return productCategory;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -56,13 +58,13 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
     @Override
     public List<ProductCategory> getAll() {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT p.id, p.name, price, currency, p.description, c.name, c.description, c.department, s.name, s.description FROM product p " +
-                    "LEFT JOIN category c ON p.category_id = c.id " +
-                    "LEFT JOIN supplier s on p.supplier_id = s.id";
-            ResultSet rs = conn.createStatement().executeQuery(sql);
+            String sql = "SELECT id, name, department, description  FROM category";
+            PreparedStatement st = conn.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
             List<ProductCategory> result = new ArrayList<>();
             while (rs.next()) {
                 ProductCategory productCategory = new ProductCategory(rs.getString(2), rs.getString(3), rs.getString(4));
+                productCategory.setId(rs.getInt(1));
                 result.add(productCategory);
             }
             return result;
