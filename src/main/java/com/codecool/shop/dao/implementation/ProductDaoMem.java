@@ -5,8 +5,6 @@ import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
-
-import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,17 +13,15 @@ public class ProductDaoMem implements ProductDao {
 
     private List<Product> data = new ArrayList<>();
     private static ProductDaoMem instance = null;
-    private DataSource dataSource;
 
     /* A private Constructor prevents any other class from instantiating.
      */
-    private ProductDaoMem(DataSource dataSource) {
-        this.dataSource = dataSource;
+    private ProductDaoMem() {
     }
 
-    public static ProductDaoMem getInstance(DataSource dataSource) {
+    public static ProductDaoMem getInstance() {
         if (instance == null) {
-            instance = new ProductDaoMem(dataSource);
+            instance = new ProductDaoMem();
         }
         return instance;
     }

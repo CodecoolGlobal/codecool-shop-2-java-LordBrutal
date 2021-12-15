@@ -2,8 +2,6 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.CreditCardDao;
 import com.codecool.shop.model.paymentmodel.CreditCard;
-
-import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -12,15 +10,13 @@ public class CreditCardDaoMem implements CreditCardDao {
 
     private List<CreditCard> creditCardList = new ArrayList<>();
     private static CreditCardDaoMem instance = null;
-    private DataSource dataSource;
 
-    private CreditCardDaoMem(DataSource dataSource) {
-        this.dataSource = dataSource;
+    private CreditCardDaoMem() {
     }
 
-    public static CreditCardDaoMem getInstance(DataSource dataSource) {
+    public static CreditCardDaoMem getInstance() {
         if (instance == null) {
-            instance = new CreditCardDaoMem(dataSource);
+            instance = new CreditCardDaoMem();
         }
         return instance;
     }
