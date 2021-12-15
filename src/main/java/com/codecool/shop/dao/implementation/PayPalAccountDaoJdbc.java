@@ -6,12 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PayPalAccountDaoJdbc {
 
-    private List<PayPalAccount> accountList = new ArrayList<>();
     private static PayPalAccountDaoJdbc instance = null;
     private DataSource dataSource;
 
