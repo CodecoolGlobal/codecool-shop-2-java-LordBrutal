@@ -42,6 +42,24 @@
     </div>
 
 </div>
+<div id="log-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-log-modal">&times;</span>
+        <div class="modal-log">
+            <form action="/login" method="get">
+                <label for="email">Email:</label><br>
+                <input type="text" id="email" name="email"><br>
+                <label for="password">Password: </label><br>
+                <input type="password" id="password" name="password"><br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+</div>
+<!--<div th:if="${session.containsKey('email')}">-->
+<!--    <p>as</p>-->
+<!--    <p th:text="${session.email}"></p>-->
+<!--</div>-->
 <div>
     <ul class="navul">
         <li class="navright">Silk Road</li>
