@@ -68,12 +68,12 @@ public class ProductDaoJdbc implements ProductDao {
                     "LEFT JOIN supplier s on p.supplier_id = s.id";
             ResultSet rs = conn.createStatement().executeQuery(sql);
             List<Product> result = new ArrayList<>();
-            while (rs.next()) { // while result set pointer is positioned before or on last row read authors
+            while (rs.next()) {
                 result.add(fillOutProductForm(rs));
             }
             return result;
         } catch (SQLException e) {
-            throw new RuntimeException("Error while reading all authors", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -88,12 +88,12 @@ public class ProductDaoJdbc implements ProductDao {
             st.setInt(1, supplier.getId());
             ResultSet rs = conn.createStatement().executeQuery(sql);
             List<Product> result = new ArrayList<>();
-            while (rs.next()) { // while result set pointer is positioned before or on last row read authors
+            while (rs.next()) {
                 result.add(fillOutProductForm(rs));
             }
             return result;
         } catch (SQLException e) {
-            throw new RuntimeException("Error while reading all authors", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -108,12 +108,12 @@ public class ProductDaoJdbc implements ProductDao {
             st.setInt(1, productCategory.getId());
             ResultSet rs = conn.createStatement().executeQuery(sql);
             List<Product> result = new ArrayList<>();
-            while (rs.next()) { // while result set pointer is positioned before or on last row read authors
+            while (rs.next()) {
                 result.add(fillOutProductForm(rs));
             }
             return result;
         } catch (SQLException e) {
-            throw new RuntimeException("Error while reading all authors", e);
+            throw new RuntimeException(e);
         }
     }
 
