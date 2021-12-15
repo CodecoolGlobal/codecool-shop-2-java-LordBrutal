@@ -7,12 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CreditCardDaoJdbc implements CreditCardDao {
 
-    private List<CreditCard> creditCardList = new ArrayList<>();
     private static CreditCardDaoJdbc instance = null;
     private DataSource dataSource;
 
@@ -33,11 +30,16 @@ public class CreditCardDaoJdbc implements CreditCardDao {
 
     @Override
     public CreditCard findCard(String cardNumber) {
+        return null;
+    }
+
+    public CreditCard findCard(int userId, String cardNumber) {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "SELECT id, card_number, card_holder, exp_year, exp_month, cvv FROM creditcard cc " +
-                    "WHERE cc.card_number = ?";
+                    "WHERE cc.card_number = ? AND cc.user_id = ?";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setString(1, cardNumber);
+            st.setInt(2, userId);
             ResultSet rs = conn.createStatement().executeQuery(sql);
             if (!rs.next()) {
                 return null;
