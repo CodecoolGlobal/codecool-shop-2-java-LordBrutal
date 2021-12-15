@@ -1,8 +1,10 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.CreditCardDao;
+import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.PayPalAccountDao;
 import com.codecool.shop.dao.implementation.CreditCardDaoMem;
+import com.codecool.shop.dao.implementation.OrderDaoMem;
 import com.codecool.shop.dao.implementation.PayPalAccountDaoMem;
 import com.codecool.shop.model.paymentmodel.CreditCard;
 import com.codecool.shop.model.paymentmodel.PayPalAccount;
@@ -21,9 +23,10 @@ public class PaymentValidationController extends ServletBaseModel {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        CreditCardDao creditCardDataStore = CreditCardDaoMem.getInstance(db);
-        PayPalAccountDao payPalAccountDataStore = PayPalAccountDaoMem.getInstance(db);
-        PaymentValidationService paymentValidationService = new PaymentValidationService(creditCardDataStore, payPalAccountDataStore, db);
+        CreditCardDao creditCardDataStore = CreditCardDaoMem.getInstance();
+        PayPalAccountDao payPalAccountDataStore = PayPalAccountDaoMem.getInstance();
+        OrderDao orderDataStore = OrderDaoMem.getInstance();
+        PaymentValidationService paymentValidationService = new PaymentValidationService(creditCardDataStore, payPalAccountDataStore, orderDataStore);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 

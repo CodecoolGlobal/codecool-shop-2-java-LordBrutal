@@ -18,7 +18,7 @@ public class PaymentController extends ServletBaseModel {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
-        OrderDaoMem orderInfo = OrderDaoMem.getInstance(db);
+        OrderDaoMem orderInfo = OrderDaoMem.getInstance();
         context.setVariable("order", orderInfo);
 
         engine.process("/payment/payment.html", context, resp.getWriter());

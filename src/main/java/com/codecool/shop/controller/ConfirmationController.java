@@ -23,7 +23,7 @@ public class ConfirmationController extends ServletBaseModel {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
-        OrderDaoMem orderDao = OrderDaoMem.getInstance(db);
+        OrderDaoMem orderDao = OrderDaoMem.getInstance();
         context.setVariable("order", orderDao);
         engine.process("/payment/confirmation.html", context, resp.getWriter());
         if (orderDao.isPaymentSuccess()){

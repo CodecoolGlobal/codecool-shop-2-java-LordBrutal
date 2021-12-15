@@ -14,7 +14,7 @@ public class UserOrderInformationController extends ServletBaseModel {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        OrderDaoMem orderDaoMem = OrderDaoMem.getInstance(db);
+        OrderDaoMem orderDaoMem = OrderDaoMem.getInstance();
         orderDaoMem.setName(req.getParameter("name"));
         orderDaoMem.setEmail(req.getParameter("email"));
         orderDaoMem.setPhoneNumber(req.getParameter("phone-number"));

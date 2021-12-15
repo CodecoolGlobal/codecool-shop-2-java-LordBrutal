@@ -17,8 +17,8 @@ public class CartController extends ServletBaseModel {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        OrderDaoMem orderDaoMem = OrderDaoMem.getInstance(db);
-        ProductDao productDataStore = ProductDaoMem.getInstance(db);
+        OrderDaoMem orderDaoMem = OrderDaoMem.getInstance();
+        ProductDao productDataStore = ProductDaoMem.getInstance();
         CartService cartservice = new CartService(orderDaoMem, productDataStore);
 
         if (req.getParameter("cart") != null) {
