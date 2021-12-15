@@ -3,6 +3,7 @@ package com.codecool.shop.dao.implementation;
 import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.model.Supplier;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,15 +11,16 @@ public class SupplierDaoMem implements SupplierDao {
 
     private List<Supplier> data = new ArrayList<>();
     private static SupplierDaoMem instance = null;
+    private DataSource dataSource;
 
     /* A private Constructor prevents any other class from instantiating.
      */
-    private SupplierDaoMem() {
+    private SupplierDaoMem(DataSource dataSource) {
     }
 
-    public static SupplierDaoMem getInstance() {
+    public static SupplierDaoMem getInstance(DataSource dataSource) {
         if (instance == null) {
-            instance = new SupplierDaoMem();
+            instance = new SupplierDaoMem(dataSource);
         }
         return instance;
     }

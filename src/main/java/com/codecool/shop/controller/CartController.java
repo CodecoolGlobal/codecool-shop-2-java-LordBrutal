@@ -5,9 +5,7 @@ import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.implementation.OrderDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.service.CartService;
-
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -15,12 +13,12 @@ import java.io.PrintWriter;
 
 
 @WebServlet(urlPatterns = {"/cart"})
-public class CartController extends HttpServlet {
+public class CartController extends ServletBaseModel {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        OrderDaoMem orderDaoMem = OrderDaoMem.getInstance();
-        ProductDao productDataStore = ProductDaoMem.getInstance();
+        OrderDaoMem orderDaoMem = OrderDaoMem.getInstance(db);
+        ProductDao productDataStore = ProductDaoMem.getInstance(db);
         CartService cartservice = new CartService(orderDaoMem, productDataStore);
 
         if (req.getParameter("cart") != null) {
