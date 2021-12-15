@@ -1,3 +1,4 @@
+import {loginButton} from "./login.js";
 function addCartbutton() {
     const buttons = document.querySelectorAll("#add-card")
     for (let i = 0; i < buttons.length; i++) {
@@ -156,6 +157,7 @@ function cartOpenButton() {
 
 function main() {
     addCartbutton();
+    loginButton()
     if (sessionStorage.getItem("cart") !== null) {
         cartOpenButton();
     }

@@ -1,20 +1,22 @@
 package com.codecool.shop.service;
 
 import com.codecool.shop.dao.CreditCardDao;
-import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.PayPalAccountDao;
+import com.codecool.shop.dao.implementation.OrderDaoMem;
 import com.codecool.shop.model.paymentmodel.CreditCard;
 import com.codecool.shop.model.paymentmodel.PayPalAccount;
 
 public class PaymentValidationService {
-    private final CreditCardDao creditCardDataStore;
-    private final PayPalAccountDao payPalAccountDataStore;
-    private final OrderDao orderDao;
+    private CreditCardDao creditCardDataStore;
+    private PayPalAccountDao payPalAccountDataStore;
+    private final OrderDaoMem orderDao = OrderDaoMem.getInstance();
 
-    public PaymentValidationService(CreditCardDao creditCardDataStore, PayPalAccountDao payPalAccountDataStore, OrderDao orderDao) {
-        this.creditCardDataStore = creditCardDataStore;
+    public PaymentValidationService(PayPalAccountDao payPalAccountDataStore) {
         this.payPalAccountDataStore = payPalAccountDataStore;
-        this.orderDao = orderDao;
+    }
+
+    public PaymentValidationService(CreditCardDao creditCardDataStore) {
+        this.creditCardDataStore = creditCardDataStore;
     }
 
     public boolean validateCreditCard(CreditCard creditCard) {
