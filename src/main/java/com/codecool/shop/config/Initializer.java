@@ -11,18 +11,25 @@ import com.codecool.shop.model.paymentmodel.PayPalAccount;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import javax.sql.DataSource;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 
 @WebListener
 public class Initializer implements ServletContextListener {
-
+    DataSource db;
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
-        CreditCardDao creditCardDataStore = CreditCardDaoMem.getInstance();
-        PayPalAccountDao payPalAccountDataStore = PayPalAccountDaoMem.getInstance();
+        try {
+            DataSource db = new DatabaseManager().connect();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        ProductDao productDataStore = ProductDaoMem.getInstance(db);
+        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance(db);
+        SupplierDao supplierDataStore = SupplierDaoMem.getInstance(db);
+        CreditCardDao creditCardDataStore = CreditCardDaoMem.getInstance(db);
+        PayPalAccountDao payPalAccountDataStore = PayPalAccountDaoMem.getInstance(db);
 
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");
@@ -52,7 +59,7 @@ public class Initializer implements ServletContextListener {
         productDataStore.add(new Product("Amazon Fire HD 8", new BigDecimal("89"), "USD", "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", tablet, amazon));
         productDataStore.add(new Product("Xiaomi 10", new BigDecimal("100"), "USD", "Best phone manufacturer in China, Supports Google", phone, xiaomi));
 
-        productDataStore.add(new Product("Nerf Elite Titan CS-50 ", new BigDecimal("420"), "USD", "Take on targets with the power and size of a giant with Nerf Elite Titan CS-50 blaster!", weapon, nerf));
+        productDataStore.add(new Product("Nerf Elite Titan CS-50", new BigDecimal("420"), "USD", "Take on targets with the power and size of a giant with Nerf Elite Titan CS-50 blaster!", weapon, nerf));
         productDataStore.add(new Product("Nerf N-Strike Rhino-Fire", new BigDecimal("1500"), "USD", "Win the battle with the most BRUTAL GUN", weapon, nerf));
         productDataStore.add(new Product("Nerf Ultra Select", new BigDecimal("145"), "USD", "Play safe with your kid without hurt him", weapon, nerf));
         productDataStore.add(new Product("Nerf Round", new BigDecimal("10"), "USD", "Best ammunition for battle", weapon, nerf));
