@@ -27,8 +27,6 @@ public class LoginController  extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        System.out.println(email);
-        System.out.println(password);
         // TODO connect with database,and check the response
         HttpSession session=req.getSession();
         session.setAttribute("email",email);

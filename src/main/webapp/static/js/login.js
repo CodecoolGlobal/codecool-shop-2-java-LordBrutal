@@ -1,6 +1,8 @@
 export function loginButton(){
-    const loginButton = document.querySelector("#login-btn");
-    loginButton.addEventListener("click", loginButtonEvent);
+    try {
+        const loginButton = document.querySelector("#login-btn");
+        loginButton.addEventListener("click", loginButtonEvent);
+    }catch (e){}
 }
 
 function loginButtonEvent(){
