@@ -56,14 +56,13 @@
         </div>
     </div>
 </div>
-<!--<div th:if="${session.containsKey('email')}">-->
-<!--    <p>as</p>-->
-<!--    <p th:text="${session.email}"></p>-->
-<!--</div>-->
+
 <div>
     <ul class="navul">
         <li class="navright">Silk Road</li>
         <li class="navleft" id="myBtn">Cart</li>
+        <li class="navleft" id="login-btn" th:if="${session.email == null}" th:text="'Login'"></li>
+        <a href="/logout"><li class="navleft" id="log-out-btn" th:unless="${session.email == null}" th:text="'LogOut'"></li></a>
         <div class="filter-box container">
             <form action="/" method="get">
                 <label for="category">Filter by Category: </label>
