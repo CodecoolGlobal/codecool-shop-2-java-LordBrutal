@@ -40,11 +40,13 @@ public class SupplierDaoJdbc implements SupplierDao {
                     "WHERE s.id = ?";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setInt(1, id);
-            ResultSet rs = conn.createStatement().executeQuery(sql);
+            ResultSet rs = st.executeQuery();
             if (!rs.next()) {
                 return null;
             }
-            return new Supplier(rs.getString(2), rs.getString(3));
+            Supplier supplier = new Supplier(rs.getString(2), rs.getString(3));
+            supplier.setId(id);
+            return supplier;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -58,10 +60,12 @@ public class SupplierDaoJdbc implements SupplierDao {
     public List<Supplier> getAll() {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "SELECT id, name, description FROM supplier s";
-            ResultSet rs = conn.createStatement().executeQuery(sql);
+            PreparedStatement st = conn.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
             List<Supplier> result = new ArrayList<>();
             while (rs.next()) {
                 Supplier supplier = new Supplier(rs.getString(2), rs.getString(3));
+                supplier.setId(rs.getInt(1));
                 result.add(supplier);
             }
             return result;
