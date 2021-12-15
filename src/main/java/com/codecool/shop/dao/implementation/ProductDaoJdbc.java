@@ -95,14 +95,18 @@ public class ProductDaoJdbc implements ProductDao {
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
+        return null;
+    }
+
+    public List<Product> getBy(int categoryId) {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "SELECT p.id, p.name, price, currency, p.description, c.name, c.description, c.department, s.name, s.description FROM product p " +
-                    "LEFT JOIN category c ON p.category_id = c.id " +
-                    "LEFT JOIN supplier s on p.supplier_id = s.id " +
-                    "WHERE c.id = ?";
+                    "JOIN category c ON p.category_id = c.id " +
+                    "JOIN supplier s on p.supplier_id = s.id " +
+                    "WHERE c.id = ?;";
             PreparedStatement st = conn.prepareStatement(sql);
-            st.setInt(1, productCategory.getId());
-            ResultSet rs = conn.createStatement().executeQuery(sql);
+            st.setInt(1, categoryId);
+            ResultSet rs = st.executeQuery();
             List<Product> result = new ArrayList<>();
             while (rs.next()) {
                 result.add(fillOutProductForm(rs));
