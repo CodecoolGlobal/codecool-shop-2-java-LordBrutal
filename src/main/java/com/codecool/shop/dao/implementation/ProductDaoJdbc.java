@@ -15,7 +15,6 @@ import java.util.List;
 
 public class ProductDaoJdbc implements ProductDao {
 
-    private List<Product> data = new ArrayList<>();
     private static ProductDaoJdbc instance = null;
     private final DataSource dataSource;
 

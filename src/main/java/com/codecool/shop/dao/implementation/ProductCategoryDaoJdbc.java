@@ -12,7 +12,6 @@ import java.util.List;
 
 public class ProductCategoryDaoJdbc implements ProductCategoryDao {
 
-    private List<ProductCategory> data = new ArrayList<>();
     private static ProductCategoryDaoJdbc instance = null;
     private DataSource dataSource;
 
