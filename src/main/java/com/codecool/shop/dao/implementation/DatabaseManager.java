@@ -2,22 +2,25 @@ package com.codecool.shop.dao.implementation;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.Properties;
+
 import org.postgresql.ds.PGSimpleDataSource;
 
 public class DatabaseManager {
 
     public DatabaseManager() throws SQLException {
-        DataSource dataSource = connect();
     }
 
-    public DataSource connect() throws SQLException {
+    public DataSource connect(Properties properties) throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        String dbName = System.getenv("PSQL_DB_NAME");
-        String user = System.getenv("PSQL_USER_NAME");
-        String password = System.getenv("PSQL_PASSWORD");
+        String dbName = properties.getProperty("database");
+        String user = properties.getProperty("user");
+        String password = properties.getProperty("password");
+        int portnumber = Integer.parseInt(properties.getProperty("portnumber"));
         dataSource.setDatabaseName(dbName);
         dataSource.setUser(user);
         dataSource.setPassword(password);
+        dataSource.setPortNumber(portnumber);
 
         System.out.println("Trying to connect");
         dataSource.getConnection().close();
