@@ -5,7 +5,8 @@
     <meta name="author" content="Codecool" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="icon" href="data:,">
-    <script src="/static/js/card.js" defer></script>
+    <script type="module" src="/static/js/card.js" defer></script>
+<!--    <script src="/static/js/login.js" defer></script>-->
     <title>Codecool Shop</title>
 
     <!-- Bootstrap components -->
@@ -41,10 +42,27 @@
     </div>
 
 </div>
+<div id="log-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-log-modal">&times;</span>
+        <div class="modal-log">
+            <form action="/login" method="get">
+                <label for="email">Email:</label><br>
+                <input type="text" id="email" name="email"><br>
+                <label for="password">Password: </label><br>
+                <input type="password" id="password" name="password"><br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+</div>
+
 <div>
     <ul class="navul">
         <li class="navright">Silk Road</li>
         <li class="navleft" id="myBtn">Cart</li>
+        <li class="navleft" id="login-btn" th:if="${session.email == null}" th:text="'Login'"></li>
+        <a href="/logout"><li class="navleft" id="log-out-btn" th:unless="${session.email == null}" th:text="'LogOut'"></li></a>
         <div class="filter-box container">
             <form action="/" method="get">
                 <label for="category">Filter by Category: </label>
