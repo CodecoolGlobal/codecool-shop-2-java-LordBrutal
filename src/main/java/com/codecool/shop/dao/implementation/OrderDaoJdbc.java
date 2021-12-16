@@ -125,6 +125,25 @@ public class OrderDaoJdbc implements OrderDao {
         }
     }
 
+    public void updateBillingInfo(int userId) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "UPDATE billing_info SET name = ?," +
+                    "phone_number = ?," +
+                    "shipping_address = ?," +
+                    "billing_address = ? " +
+                    "WHERE user_id = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, name);
+            st.setString(2, phoneNumber);
+            st.setString(3, shippingAddress);
+            st.setString(4, billingAddress);
+            st.setInt(5, userId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public boolean hasCart(int userId) {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "SELECT id FROM cart WHERE user_id = ?" ;
