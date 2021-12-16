@@ -1,13 +1,13 @@
 package com.codecool.shop.controller;
 
 
-import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.implementation.OrderDaoJdbc;
 import com.codecool.shop.dao.implementation.OrderDaoMem;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -20,7 +20,14 @@ public class UserOrderInformationController extends ServletBaseModel {
         Properties connection = getConnectionProperties();
         String connectionType = connection.getProperty("dao");
         if(connectionType.equals("jdbc")) {
-            OrderDao orderDao = OrderDaoJdbc.getInstance(db);
+            OrderDaoJdbc orderDao = OrderDaoJdbc.getInstance(db);
+            HttpSession session = req.getSession();
+            int userId = (int)session.getAttribute("userId");
+            if(orderDao.hasCart(userId)) {
+                orderDao.updateCart(userId);
+            } else {
+                orderDao.saveCart(userId);
+            }
         } else {
             OrderDaoMem orderDaoMem = OrderDaoMem.getInstance();
             orderDaoMem.setName(req.getParameter("name"));
