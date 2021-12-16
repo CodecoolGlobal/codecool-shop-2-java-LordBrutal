@@ -39,4 +39,20 @@ public class UserInfoDaoJdbc implements UserDao {
             throw new RuntimeException("bd connection is failed");
         }
     }
+
+    public int getUserId(String email) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT id FROM users WHERE email = ?" ;
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, email);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                return rs.getInt(1);
+            } else {
+                throw new RuntimeException();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("db connection failure");
+        }
+    }
 }

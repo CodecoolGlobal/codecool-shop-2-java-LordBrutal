@@ -1,5 +1,6 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.implementation.UserInfoDaoJdbc;
 import com.codecool.shop.model.UserModel;
 import com.codecool.shop.service.LoginService;
 
@@ -21,7 +22,9 @@ public class LoginController  extends ServletBaseModel {
         if (loginService.validetaLogint()){
             HttpSession session=req.getSession();
             session.setAttribute("email",email);
-            resp.sendRedirect("/");
+            UserInfoDaoJdbc userDao = UserInfoDaoJdbc.getInstance(db);
+            int userId = userDao.getUserId(email);
+            session.setAttribute("userId", userId);
         }
         resp.sendRedirect("/");
     }
