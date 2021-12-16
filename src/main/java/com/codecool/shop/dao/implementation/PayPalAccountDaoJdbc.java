@@ -1,5 +1,6 @@
 package com.codecool.shop.dao.implementation;
 
+import com.codecool.shop.dao.PayPalAccountDao;
 import com.codecool.shop.model.paymentmodel.PayPalAccount;
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -7,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PayPalAccountDaoJdbc {
+public class PayPalAccountDaoJdbc implements PayPalAccountDao {
 
     private static PayPalAccountDaoJdbc instance = null;
     private DataSource dataSource;
@@ -38,5 +39,15 @@ public class PayPalAccountDaoJdbc {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void add(PayPalAccount account) {
+
+    }
+
+    @Override
+    public PayPalAccount findAccount(String userName) {
+        return null;
     }
 }
