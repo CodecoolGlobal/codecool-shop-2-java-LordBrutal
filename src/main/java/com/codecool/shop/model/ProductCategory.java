@@ -32,7 +32,7 @@ public class ProductCategory extends BaseModel {
 
     public List<Product> getFilteredProducts(List<Product> filter) {
         return filter.stream()
-                .filter(p -> p.getProductCategory().equals(this))
+                .filter(p -> p.getProductCategory().getName().equals(this.getName()))
                         .collect(Collectors.toList());
     }
 

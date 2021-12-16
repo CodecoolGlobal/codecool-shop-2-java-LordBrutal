@@ -2,7 +2,6 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.CreditCardDao;
 import com.codecool.shop.model.paymentmodel.CreditCard;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

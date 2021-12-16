@@ -7,10 +7,8 @@ import com.codecool.shop.email.SendMail;
 import com.google.gson.Gson;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedWriter;
@@ -19,7 +17,7 @@ import java.io.IOException;
 
 
 @WebServlet(urlPatterns = {"/confirmation"})
-public class ConfirmationController extends HttpServlet {
+public class ConfirmationController extends ServletBaseModel {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

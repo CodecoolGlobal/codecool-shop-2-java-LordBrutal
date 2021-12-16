@@ -2,7 +2,6 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.PayPalAccountDao;
 import com.codecool.shop.model.paymentmodel.PayPalAccount;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
