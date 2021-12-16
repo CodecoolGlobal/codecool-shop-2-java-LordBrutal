@@ -2,7 +2,9 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.model.CartItem;
+import com.google.gson.Gson;
 import javax.sql.DataSource;
+import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,6 +122,72 @@ public class OrderDaoJdbc implements OrderDao {
             setEmail(rs.getString(5));
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public boolean hasCart(int userId) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT id FROM cart WHERE user_id = ?" ;
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, userId);
+            ResultSet rs = st.executeQuery();
+            return !rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException("db connection failure");
+        }
+    }
+
+    public void saveCart(int userId) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "INSERT INTO cart (user_id, cart_items) VALUES (?, ?)";
+            PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, userId);
+            String cartJson = new Gson().toJson(cartItems);
+            statement.setString(2, cartJson);
+            statement.executeUpdate();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            resultSet.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateCart(int userId) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "UPDATE cart SET cart_items = ? WHERE user_id = ?";
+            PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(2, userId);
+            String cartJson = new Gson().toJson(cartItems);
+            statement.setString(1, cartJson);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void loadCart(int userId) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT cart_items FROM cart WHERE user_id = ?" ;
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, userId);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                String cartJson = rs.getString(1);
+                cartItems = new Gson().fromJson(cartJson, (Type) CartItem[].class);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("db connection failure");
+        }
+    }
+
+    public void emptyCart(int userId) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "DELETE FROM cart WHERE user_id = ?" ;
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, userId);
+            ResultSet rs = st.executeQuery();
+        } catch (SQLException e) {
+            throw new RuntimeException("db connection failure");
         }
     }
 }
