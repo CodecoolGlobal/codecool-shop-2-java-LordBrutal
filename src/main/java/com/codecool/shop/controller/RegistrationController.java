@@ -30,8 +30,8 @@ public class RegistrationController  extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
-        String password = req.getParameter("password");
-        User user = new User(UUID.randomUUID(),email, Hash.get_SHA_512_SecurePassword(password));
+        String password = Hash.get_SHA_512_SecurePassword(req.getParameter("password"));
+        User user = new User(UUID.randomUUID(),email, password);
         resp.sendRedirect("/");
 
     }
