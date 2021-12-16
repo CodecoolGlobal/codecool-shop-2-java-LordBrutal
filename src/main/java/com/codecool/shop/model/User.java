@@ -2,8 +2,6 @@ package com.codecool.shop.model;
 
 public class User {
 
-    private int id;
-
     private String email;
 
     private String hashedPassword;
@@ -11,14 +9,6 @@ public class User {
     public User(String email, String hashedPassword) {
         this.email = email;
         this.hashedPassword = hashedPassword;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getEmail() {

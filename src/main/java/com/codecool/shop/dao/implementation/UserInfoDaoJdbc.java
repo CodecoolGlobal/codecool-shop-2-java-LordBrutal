@@ -49,7 +49,6 @@ public class UserInfoDaoJdbc implements UserDao {
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
-            user.setId(resultSet.getInt(1));
         }
         catch (SQLException e) {
         }
