@@ -2,7 +2,6 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.implementation.OrderDaoJdbc;
 import com.codecool.shop.dao.implementation.UserInfoDaoJdbc;
-import com.codecool.shop.model.UserModel;
 import com.codecool.shop.config.Hash;
 import com.codecool.shop.model.User;
 import com.codecool.shop.service.LoginService;
