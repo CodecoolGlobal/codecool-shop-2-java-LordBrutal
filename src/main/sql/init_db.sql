@@ -49,13 +49,13 @@ CREATE TABLE product (
 CREATE TABLE cart (
     id serial PRIMARY KEY,
     user_id INTEGER REFERENCES users(id),
-    product_id integer references product(id)
+    cart_items VARCHAR(500)
 );
 
 CREATE TABLE orders (
     id serial PRIMARY KEY,
     user_id integer REFERENCES users(id),
-    product_id integer references product(id)
+    order_info VARCHAR(500)
 );
 
 CREATE TABLE creditcard (
