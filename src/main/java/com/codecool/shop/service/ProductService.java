@@ -13,10 +13,12 @@ import java.util.stream.Collectors;
 public class ProductService{
     private ProductDao productDao;
     private ProductCategoryDao productCategoryDao;
+    private String daoType;
 
-    public ProductService(ProductDao productDao, ProductCategoryDao productCategoryDao) {
+    public ProductService(ProductDao productDao, ProductCategoryDao productCategoryDao, String daoType) {
         this.productDao = productDao;
         this.productCategoryDao = productCategoryDao;
+        this.daoType = daoType;
     }
 
     public ProductCategory getProductCategory(int categoryId){
@@ -24,8 +26,12 @@ public class ProductService{
     }
 
     public List<Product> getProductsForCategory(int categoryId){
-        var category = productCategoryDao.find(categoryId);
-        return productDao.getBy(category);
+        if(daoType.equals("memory")) {
+            ProductCategory category = productCategoryDao.find(categoryId);
+            return productDao.getBy(category);
+        } else {
+            return productDao.getBy(categoryId);
+        }
     }
 
     public List<Product> getAllProducts(){
@@ -46,7 +52,7 @@ public class ProductService{
                             .filter(op -> op.getSupplier().getId() == supplyId)
                             .collect(Collectors.toList());
                 } else {
-                    return supplierDataStore.find(supplyId).getProducts();  //only supplier filter used
+                    return productDao.getBy(supplierDataStore.find(supplyId));  //only supplier filter used
                 }
             }
         } else {

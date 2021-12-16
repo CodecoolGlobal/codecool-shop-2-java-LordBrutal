@@ -116,7 +116,7 @@
 
 /* Modal Content/Box */
 .modal-content{
-    background-color: #fefefe;
+    background-color: rgba(254, 254, 254, 0.91);
     margin: 10% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
@@ -187,4 +187,31 @@ body {
     text-align: left;
     background-color: #04AA6D;
     color: white;
+}
+.modal-content button{
+    font-size: 17px;
+    color: white;
+    background: #1a709f;
+    border-radius: 5px;
+    border: none;
+    padding: 6px;
+}
+.modal-log #submit-login{
+    font-size: 17px;
+    color: white;
+    background: #1a709f;
+    border-radius: 5px;
+    border: none;
+    padding: 5px;
+}
+.modal-log label{
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.log-in-fields{
+    padding: 6px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.93);
+    border: 1px solid gray;
 }

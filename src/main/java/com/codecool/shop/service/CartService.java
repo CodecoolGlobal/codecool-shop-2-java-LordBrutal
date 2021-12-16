@@ -1,7 +1,7 @@
 package com.codecool.shop.service;
 
+import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.implementation.OrderDaoMem;
 import com.codecool.shop.model.CartItem;
 import com.codecool.shop.model.Product;
 import com.google.gson.Gson;
@@ -11,11 +11,11 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 public class CartService {
-    private final OrderDaoMem orderDaoMem;
+    private final OrderDao orderDao;
     private final ProductDao productDataStore;
 
-    public CartService(OrderDaoMem orderDaoMem, ProductDao productDataStore) {
-        this.orderDaoMem = orderDaoMem;
+    public CartService(OrderDao orderDao, ProductDao productDataStore) {
+        this.orderDao = orderDao;
         this.productDataStore = productDataStore;
     }
 
@@ -36,9 +36,9 @@ public class CartService {
             cartItem.setName(product.getName());
         }
 
-        orderDaoMem.setTotalPrice(total);
-        orderDaoMem.setCartItems(cartItems);
+        orderDao.setTotalPrice(total);
+        orderDao.setCartItems(cartItems);
 
-        return gson.toJson(orderDaoMem);
+        return gson.toJson(orderDao);
     }
 }
