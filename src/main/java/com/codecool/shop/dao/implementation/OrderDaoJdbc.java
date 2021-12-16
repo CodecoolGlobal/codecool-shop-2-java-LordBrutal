@@ -106,9 +106,9 @@ public class OrderDaoJdbc implements OrderDao {
 
     public void loadBillingInfo(int userId) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT name, phone_number, shipping_address, billing_address " +
-                    "FROM billing_info " +
-                    "WHERE user_id = ?";
+            String sql = "SELECT name, phone_number, shipping_address, billing_address, email " +
+                    "FROM billing_info bi" +
+                    " JOIN users u on bi.user_id = u.id WHERE user_id = ?";
             PreparedStatement st = conn.prepareStatement(sql);
             st.setInt(1, userId);
             ResultSet rs = st.executeQuery();
@@ -131,7 +131,7 @@ public class OrderDaoJdbc implements OrderDao {
             PreparedStatement st = conn.prepareStatement(sql);
             st.setInt(1, userId);
             ResultSet rs = st.executeQuery();
-            return !rs.next();
+            return rs.next();
         } catch (SQLException e) {
             throw new RuntimeException("db connection failure");
         }
@@ -185,7 +185,7 @@ public class OrderDaoJdbc implements OrderDao {
             String sql = "DELETE FROM cart WHERE user_id = ?" ;
             PreparedStatement st = conn.prepareStatement(sql);
             st.setInt(1, userId);
-            ResultSet rs = st.executeQuery();
+            st.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("db connection failure");
         }
