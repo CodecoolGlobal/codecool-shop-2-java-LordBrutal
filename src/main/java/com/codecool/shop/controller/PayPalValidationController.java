@@ -1,6 +1,7 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.PayPalAccountDao;
+import com.codecool.shop.dao.implementation.OrderDaoJdbc;
 import com.codecool.shop.dao.implementation.PayPalAccountDaoJdbc;
 import com.codecool.shop.dao.implementation.PayPalAccountDaoMem;
 import com.codecool.shop.model.paymentmodel.PayPalAccount;
@@ -10,7 +11,6 @@ import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -41,6 +41,15 @@ public class PayPalValidationController extends ServletBaseModel {
 
             PayPalAccount payPalAccount = new Gson().fromJson(requestBody, PayPalAccount.class);
             var validAccount = paymentValidationService.validatePayPalAccount(payPalAccount);
+            if(validAccount) {
+                OrderDaoJdbc orderDao = OrderDaoJdbc.getInstance(db);
+                int userId = (int)session.getAttribute("userId");
+                int orderId = (int)session.getAttribute("orderId");
+                orderDao.loadOrder(orderId);
+                orderDao.setPaymentSuccess();
+                orderDao.saveOrder(userId);
+                orderDao.emptyCart(userId);
+            }
             out.println(validAccount);
         }else response.sendRedirect("/");
     }
