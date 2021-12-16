@@ -16,10 +16,11 @@ public class RegistrationController  extends ServletBaseModel {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         if (getConnectionProperties().getProperty("dao").equals("jdbc")) {
             String email = req.getParameter("email");
-            String password = req.getParameter("password");
-            User user = new User(email, Hash.get_SHA_512_SecurePassword(password));
+            String password = Hash.get_SHA_512_SecurePassword(req.getParameter("password"));
+            User user = new User(email, password);
             RegistrationService registrationService = new RegistrationService(db, user);
             registrationService.addNewUser();
             resp.sendRedirect("/");
