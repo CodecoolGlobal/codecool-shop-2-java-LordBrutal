@@ -28,6 +28,8 @@ public class UserOrderInformationController extends ServletBaseModel {
             } else {
                 orderDao.saveCart(userId);
             }
+            int orderId = orderDao.saveOrder(userId);
+            session.setAttribute("orderId", orderId);
         } else {
             OrderDaoMem orderDaoMem = OrderDaoMem.getInstance();
             orderDaoMem.setName(req.getParameter("name"));
