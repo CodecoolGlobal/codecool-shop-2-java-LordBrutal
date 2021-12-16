@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 
 @WebServlet(urlPatterns = {"/registration"})
@@ -22,8 +23,16 @@ public class RegistrationController  extends ServletBaseModel {
             String password = Hash.get_SHA_512_SecurePassword(req.getParameter("password"));
             User user = new User(email, password);
             RegistrationService registrationService = new RegistrationService(db, user);
-            registrationService.addNewUser();
+            List<String> users = registrationService.getAllUser();
+             if (users.contains(email)){
+                 System.out.println("used");
+                 resp.sendRedirect("/");
+             }
+             else {
+                 registrationService.addNewUser();
+             }
             resp.sendRedirect("/");
+
 
         }
     }
