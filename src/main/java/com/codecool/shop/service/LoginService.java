@@ -14,7 +14,7 @@ public class LoginService {
         this.userModel = userModel;
     }
 
-    public boolean validetaLogint(){
+    public boolean validateLogin(){
         UserInfoDaoJdbc userInfoJdbc = UserInfoDaoJdbc.getInstance(dataSource);
         return userInfoJdbc.getUserDetails(userModel.getEmail(), userModel.getPassword());
     }

@@ -6,7 +6,6 @@ import com.codecool.shop.service.LoginService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,7 +18,7 @@ public class LoginController  extends ServletBaseModel {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         LoginService loginService = new LoginService(db, new UserModel(email, password));
-        if (loginService.validetaLogint()){
+        if (loginService.validateLogin()){
             HttpSession session=req.getSession();
             session.setAttribute("email",email);
             UserInfoDaoJdbc userDao = UserInfoDaoJdbc.getInstance(db);
