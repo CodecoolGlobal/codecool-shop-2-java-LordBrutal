@@ -59,7 +59,7 @@ function cartOpenButton() {
     data.then(data => {
         console.log(data)
         if (data !== null || true) {
-            let modalContent = document.querySelector(".modal-content");
+            let modalContent = document.querySelector("#cartmodal-content");
             modalContent.innerHTML = "";
 
             let closeButton = document.createElement("span");
