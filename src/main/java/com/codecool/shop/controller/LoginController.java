@@ -21,7 +21,6 @@ public class LoginController  extends ServletBaseModel {
         if (loginService.validetaLogint()){
             HttpSession session=req.getSession();
             session.setAttribute("email",email);
-            resp.sendRedirect("/");
         }
         resp.sendRedirect("/");
     }
