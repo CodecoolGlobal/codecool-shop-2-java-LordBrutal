@@ -1,5 +1,8 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.model.UserModel;
+import com.codecool.shop.service.LoginService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,14 +12,17 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/login"})
-public class LoginController  extends HttpServlet {
+public class LoginController  extends ServletBaseModel {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        // TODO connect with database,and check the response
-        HttpSession session=req.getSession();
-        session.setAttribute("email",email);
+        LoginService loginService = new LoginService(db, new UserModel(email, password));
+        if (loginService.validetaLogint()){
+            HttpSession session=req.getSession();
+            session.setAttribute("email",email);
+            resp.sendRedirect("/");
+        }
         resp.sendRedirect("/");
     }
 }
