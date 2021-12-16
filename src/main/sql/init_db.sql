@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(50) NOT NULL,
-    password VARCHAR(100) NOT NULL
+    password VARCHAR(200) NOT NULL
 );
 
 CREATE TABLE billing_info (
@@ -76,7 +76,7 @@ CREATE TABLE paypal (
 );
 
 INSERT INTO users (id, email, password) VALUES (1, 'kispistashop@gmail.com', 'qwe123');
-INSERT INTO users (id, email, password) VALUES (2, 'nagygeza@gmail.com', 'wer234');
+INSERT INTO users (id, email, password) VALUES (2, 'bogar.jozsef@gmail.com', 'wer234');
 
 INSERT INTO billing_info (id, user_id, name, phone_number, shipping_address, billing_address) VALUES (1, 1, 'Kis Pista', '061234567', 'Hal utca 1', 'Hal utca 1');
 INSERT INTO billing_info (id, user_id, name, phone_number, shipping_address, billing_address) VALUES (2, 2, 'Nagy Geza', '069876543', 'Fa utca 2', 'Fa utca 2');

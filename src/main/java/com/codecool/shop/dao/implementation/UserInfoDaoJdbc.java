@@ -1,12 +1,10 @@
 package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.UserDao;
+import com.codecool.shop.model.User;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UserInfoDaoJdbc implements UserDao {
     private static UserInfoDaoJdbc instance = null;
@@ -36,7 +34,24 @@ public class UserInfoDaoJdbc implements UserDao {
             }
             return true;
         } catch (SQLException e) {
-            throw new RuntimeException("bd connection is failed");
+            throw new RuntimeException("db connection is failed");
+        }
+    }
+
+    @Override
+    public void addUser(User user) {
+        System.out.println(user.getEmail());
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "INSERT INTO users (email, password) VALUES (?, ?)";
+            PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, user.getEmail());
+            statement.setString(2, user.getHashedPassword());
+            statement.executeUpdate();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            resultSet.next();
+            user.setId(resultSet.getInt(1));
+        }
+        catch (SQLException e) {
         }
     }
 

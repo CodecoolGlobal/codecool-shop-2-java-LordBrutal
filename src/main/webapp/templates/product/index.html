@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link rel="icon" href="data:,">
     <script type="module" src="/static/js/card.js" defer></script>
+    <script type="module" src="/static/js/registration.js" defer></script>
+
 <!--    <script src="/static/js/login.js" defer></script>-->
     <title>Codecool Shop</title>
 
@@ -34,14 +36,19 @@
 <body>
 
 
+
+
+
 <!-- The Modal -->
 <div id="myModal" class="modal">
 
     <!-- Modal content -->
-    <div class="modal-content" id="cart-modal">
-    </div>
 
+    <div class="modal-content" id="cartmodal-content">
+
+    </div>
 </div>
+
 <div id="log-modal" class="modal">
     <div class="modal-content">
         <span class="close" id="close-log-modal">&times;</span>
@@ -57,12 +64,29 @@
     </div>
 </div>
 
+<div id="reg-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="close-reg-modal">&times;</span>
+        <div class="modal-log">
+            <form action="/registration" method="post">
+            <label for="email">Email:</label><br>
+            <input type="text" id="reg-email" name="email"><br>
+            <label for="password">Password: </label><br>
+            <input type="password" id="reg-password" name="password"><br><br>
+            <input type="submit" value="Submit">
+        </form>
+        </div>
+    </div>
+</div>
+
+
 <div>
     <ul class="navul">
         <li class="navright">Silk Road</li>
         <li class="navleft" id="myBtn">Cart</li>
         <li class="navleft" id="login-btn" th:if="${session.email == null}" th:text="'Login'"></li>
         <a href="/logout"><li class="navleft" id="log-out-btn" th:unless="${session.email == null}" th:text="'LogOut'"></li></a>
+        <li class="navleft" id="registration">Registration</li>
         <div class="filter-box container">
             <form action="/" method="get">
                 <label for="category">Filter by Category: </label>
