@@ -75,8 +75,8 @@ CREATE TABLE paypal (
     password VARCHAR(60) NOT NULL
 );
 
-INSERT INTO users (id, email, password) VALUES (1, 'kispistashop@gmail.com', 'qwe123');
-INSERT INTO users (id, email, password) VALUES (2, 'bogar.jozsef@gmail.com', 'wer234');
+INSERT INTO users (id, email, password) VALUES (1, 'kispistashop@gmail.com', '3f7bf8614ecde909b9b294c4043d91518c85b9cc24ef705167d2d0fd81332cea39616615d88a2d16e98f90c8993025dac85efa3aae0aa1a59105fd3ddf5a57db');
+INSERT INTO users (id, email, password) VALUES (2, 'bogar.jozsef@gmail.com', '3f7bf8614ecde909b9b294c4043d91518c85b9cc24ef705167d2d0fd81332cea39616615d88a2d16e98f90c8993025dac85efa3aae0aa1a59105fd3ddf5a57db');
 
 INSERT INTO billing_info (id, user_id, name, phone_number, shipping_address, billing_address) VALUES (1, 1, 'Kis Pista', '061234567', 'Hal utca 1', 'Hal utca 1');
 INSERT INTO billing_info (id, user_id, name, phone_number, shipping_address, billing_address) VALUES (2, 2, 'Nagy Geza', '069876543', 'Fa utca 2', 'Fa utca 2');
