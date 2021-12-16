@@ -11,16 +11,26 @@ import com.codecool.shop.model.paymentmodel.PayPalAccount;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.sql.DataSource;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.SQLException;
+import java.util.Objects;
+import java.util.Properties;
 
 @WebListener
 public class Initializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        if (false) {
+        String rootPath = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath();
+        String appConfigPath = rootPath + "connection.properties";
+        Properties appProps = new Properties();
+        try {
+            appProps.load(new FileInputStream(appConfigPath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(appProps.getProperty("dao").equals("memory")) {
             ProductDao productDataStore = ProductDaoMem.getInstance();
             ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
             SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
@@ -69,10 +79,10 @@ public class Initializer implements ServletContextListener {
             productDataStore.add(new Product("Toshiba g450", new BigDecimal("30"), "USD", "A bit wacky design", phone, toshiba));
 
             creditCardDataStore.add(new CreditCard("123456789", "Kis Pista", (byte) 21, (byte)12, (short)123));
-            creditCardDataStore.add(new CreditCard("987654321", "Nagy Géza", (byte) 23, (byte) 12, (short)321));
+            creditCardDataStore.add(new CreditCard("987654321", "Nagy Geza", (byte) 23, (byte) 12, (short)321));
 
-            payPalAccountDataStore.add(new PayPalAccount("kispista", "kispista123"));
-            payPalAccountDataStore.add(new PayPalAccount("nagygéza", "nagygéza321"));
+            payPalAccountDataStore.add(new PayPalAccount("kispista", "kp123"));
+            payPalAccountDataStore.add(new PayPalAccount("nagygeza", "ng321"));
         }
     }
 }
