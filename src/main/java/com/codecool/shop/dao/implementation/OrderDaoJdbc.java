@@ -140,13 +140,11 @@ public class OrderDaoJdbc implements OrderDao {
     public void saveCart(int userId) {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "INSERT INTO cart (user_id, cart_items) VALUES (?, ?)";
-            PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setInt(1, userId);
             String cartJson = new Gson().toJson(cartItems);
             statement.setString(2, cartJson);
             statement.executeUpdate();
-            ResultSet resultSet = statement.getGeneratedKeys();
-            resultSet.next();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -188,6 +186,34 @@ public class OrderDaoJdbc implements OrderDao {
             st.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("db connection failure");
+        }
+    }
+
+    public int saveOrder(int userId) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "INSERT INTO orders (user_id, order_info) VALUES (?, ?)";
+            PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setInt(1, userId);
+            String orderJson = new Gson().toJson(this);
+            st.setString(2, orderJson);
+            return st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void loadOrder(int orderId) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT order_info FROM orders WHERE id = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, orderId);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                String orderJson = rs.getString(2);
+                instance = new Gson().fromJson(orderJson, (Type) OrderDao.class);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }
