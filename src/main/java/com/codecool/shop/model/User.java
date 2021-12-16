@@ -1,26 +1,23 @@
 package com.codecool.shop.model;
 
-import java.util.UUID;
-
 public class User {
 
-    private UUID id;
+    private int id;
 
     private String email;
 
     private String hashedPassword;
 
-    public User(UUID id, String email, String hashedPassword) {
-        this.id = id;
+    public User(String email, String hashedPassword) {
         this.email = email;
         this.hashedPassword = hashedPassword;
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -36,7 +33,4 @@ public class User {
         return hashedPassword;
     }
 
-    public void setHashedPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
-    }
 }
