@@ -132,7 +132,8 @@ function cartOpenButton() {
             let button = document.createElement("button");
             button.style = "width: max-content"
             button.value = "submit";
-            button.innerText = "checkout"
+            button.innerText = "Checkout"
+            button.style = "margin:auto"
             modalContent.append(button);
 
             button.addEventListener("click", function () {
