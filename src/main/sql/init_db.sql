@@ -55,7 +55,7 @@ CREATE TABLE cart (
 CREATE TABLE orders (
     id serial PRIMARY KEY,
     user_id integer REFERENCES users(id),
-    order_info VARCHAR(500)
+    order_info VARCHAR(1000)
 );
 
 CREATE TABLE creditcard (
