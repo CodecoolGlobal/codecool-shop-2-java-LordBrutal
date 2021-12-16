@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -19,15 +20,27 @@ public class UserOrderInformationController extends ServletBaseModel {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Properties connection = getConnectionProperties();
         String connectionType = connection.getProperty("dao");
+        OrderDao orderDao = OrderDaoMem.getInstance();
         if(connectionType.equals("jdbc")) {
-            OrderDao orderDao = OrderDaoJdbc.getInstance(db);
-        } else {
-            OrderDaoMem orderDaoMem = OrderDaoMem.getInstance();
-            orderDaoMem.setName(req.getParameter("name"));
-            orderDaoMem.setEmail(req.getParameter("email"));
-            orderDaoMem.setPhoneNumber(req.getParameter("phone-number"));
-            orderDaoMem.setBillingAddress(req.getParameter("billing-address"));
-            orderDaoMem.setShippingAddress(req.getParameter("shipping-address"));
+            orderDao = OrderDaoJdbc.getInstance(db);
+        }
+        orderDao.setName(req.getParameter("name"));
+        orderDao.setEmail(req.getParameter("email"));
+        orderDao.setPhoneNumber(req.getParameter("phone-number"));
+        orderDao.setBillingAddress(req.getParameter("billing-address"));
+        orderDao.setShippingAddress(req.getParameter("shipping-address"));
+
+        HttpSession session = req.getSession();
+        if(session.getAttribute("userId") != null && connectionType.equals("jdbc")) {
+            int userId = (int)session.getAttribute("userId");
+            ((OrderDaoJdbc) orderDao).updateBillingInfo(userId);
+            if(((OrderDaoJdbc) orderDao).hasCart(userId)) {
+                ((OrderDaoJdbc) orderDao).updateCart(userId);
+            } else {
+                ((OrderDaoJdbc) orderDao).saveCart(userId);
+            }
+            int orderId = ((OrderDaoJdbc) orderDao).saveOrder(userId);
+            session.setAttribute("orderId", orderId);
         }
 
         resp.sendRedirect("/payment");

@@ -11,6 +11,7 @@ import com.codecool.shop.service.CartService;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Properties;
@@ -31,13 +32,29 @@ public class CartController extends ServletBaseModel {
             orderDataStore = OrderDaoJdbc.getInstance(db);
             productDataStore = ProductDaoJdbc.getInstance(db);
         }
-        CartService cartservice = new CartService(orderDataStore, productDataStore);
-
-        if (req.getParameter("cart") != null) {
-            String items = req.getParameter("cart");
+        String items = "";
+        if (req.getParameter("cart") != null && !req.getParameter("cart").equals("")) {
+            CartService cartservice = new CartService(orderDataStore, productDataStore);
+            items = req.getParameter("cart");
             PrintWriter out = resp.getWriter();
             String json = cartservice.addProductsToCart(items);
             out.println(json);
+        }
+
+        HttpSession session = req.getSession();
+        if(session.getAttribute("userId") != null) {
+            OrderDaoJdbc orderDao = OrderDaoJdbc.getInstance(db);
+            int userId = (int) session.getAttribute("userId");
+
+            if(!items.equals("")) {
+                if(orderDao.hasCart(userId)) {
+                    orderDao.updateCart(userId);
+                } else {
+                    orderDao.saveCart(userId);
+                }
+            } else if(orderDao.hasCart(userId)) {
+                orderDao.emptyCart(userId);
+            }
         }
     }
 }
