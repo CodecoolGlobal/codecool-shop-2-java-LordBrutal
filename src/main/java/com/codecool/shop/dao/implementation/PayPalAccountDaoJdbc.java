@@ -23,14 +23,14 @@ public class PayPalAccountDaoJdbc implements PayPalAccountDao {
         }
         return instance;
     }
-
-    public PayPalAccount findAccount(int userId, String userName) {
+    @Override
+    public PayPalAccount findAccount(PayPalAccount payPalAccount) {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "SELECT id, user_id, username, password FROM paypal pp " +
-                    "WHERE pp.user_id = ? AND pp.username = ?";
+                    "WHERE pp.username = ? AND pp.password = ?";
             PreparedStatement st = conn.prepareStatement(sql);
-            st.setInt(1, userId);
-            st.setString(2, userName);
+            st.setString(1, payPalAccount.getUsername());
+            st.setString(2, payPalAccount.getPassword());
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
                 return null;
@@ -46,8 +46,4 @@ public class PayPalAccountDaoJdbc implements PayPalAccountDao {
 
     }
 
-    @Override
-    public PayPalAccount findAccount(String userName) {
-        return null;
-    }
 }

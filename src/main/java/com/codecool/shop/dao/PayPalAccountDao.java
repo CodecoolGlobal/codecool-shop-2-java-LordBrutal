@@ -5,5 +5,5 @@ import com.codecool.shop.model.paymentmodel.PayPalAccount;
 public interface PayPalAccountDao {
 
     void add(PayPalAccount account);
-    public PayPalAccount findAccount(String userName);
+    public PayPalAccount findAccount(PayPalAccount payPalAccount);
 }

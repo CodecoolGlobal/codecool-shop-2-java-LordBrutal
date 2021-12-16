@@ -28,10 +28,10 @@ public class PayPalAccountDaoMem implements PayPalAccountDao {
     }
 
     @Override
-    public PayPalAccount findAccount(String userName) {
+    public PayPalAccount findAccount(PayPalAccount payPalAccount) {
         return accountList
                 .stream()
-                .filter(account -> Objects.equals(account.getUsername(), userName))
+                .filter(account -> Objects.equals(account.getUsername(), payPalAccount.getUsername()))
                 .findFirst()
                 .orElse(null);
     }
