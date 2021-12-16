@@ -10,8 +10,10 @@ import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Properties;
@@ -21,21 +23,24 @@ public class CreditCardValidationController extends ServletBaseModel {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Properties connection = getConnectionProperties();
-        String connectionType = connection.getProperty("dao");
+        HttpSession session = request.getSession();
+        if (session.getAttribute("email") != null) {
+            CreditCardDao creditCardDataStore = CreditCardDaoMem.getInstance();
+            Properties connection = getConnectionProperties();
+            String connectionType = connection.getProperty("dao");
+            if(connectionType.equals("jdbc")) {
+                creditCardDataStore = CreditCardDaoJdbc.getInstance(db);
+            }
+            PaymentValidationService paymentValidationService = new PaymentValidationService(creditCardDataStore);
 
-        CreditCardDao creditCardDataStore = CreditCardDaoMem.getInstance();
-        if(connectionType.equals("jdbc")) {
-            creditCardDataStore = CreditCardDaoJdbc.getInstance(db);
-        }
-        PaymentValidationService paymentValidationService = new PaymentValidationService(creditCardDataStore);
+            RequestHandlerService requestHandlerService = new RequestHandlerService(request);
+            PrintWriter out = response.getWriter();
+            String requestBody = requestHandlerService.readRequestBody();
 
-        RequestHandlerService requestHandlerService = new RequestHandlerService(request);
-        PrintWriter out = response.getWriter();
-        String requestBody = requestHandlerService.readRequestBody();
+            CreditCard creditCard = new Gson().fromJson(requestBody, CreditCard.class);
+            var validCreditCard = paymentValidationService.validateCreditCard(creditCard);
+            out.println(validCreditCard);
+        }else response.sendRedirect("/");
 
-        CreditCard creditCard = new Gson().fromJson(requestBody, CreditCard.class);
-        var validCreditCard = paymentValidationService.validateCreditCard(creditCard);
-        out.println(validCreditCard);
     }
 }

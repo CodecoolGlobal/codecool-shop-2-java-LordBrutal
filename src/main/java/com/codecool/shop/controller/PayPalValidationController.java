@@ -10,8 +10,10 @@ import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Properties;
@@ -22,21 +24,24 @@ public class PayPalValidationController extends ServletBaseModel {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Properties connection = getConnectionProperties();
-        String connectionType = connection.getProperty("dao");
-        RequestHandlerService requestHandlerService = new RequestHandlerService(request);
-        PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        if (session.getAttribute("email") != null) {
+            Properties connection = getConnectionProperties();
+            String connectionType = connection.getProperty("dao");
+            RequestHandlerService requestHandlerService = new RequestHandlerService(request);
+            PrintWriter out = response.getWriter();
 
-        PayPalAccountDao payPalAccountDataStore = PayPalAccountDaoMem.getInstance();
-        if(connectionType.equals("jdbc")) {
-            payPalAccountDataStore = PayPalAccountDaoJdbc.getInstance(db);
-        }
-        PaymentValidationService paymentValidationService = new PaymentValidationService(payPalAccountDataStore);
+            PayPalAccountDao payPalAccountDataStore = PayPalAccountDaoMem.getInstance();
+            if (connectionType.equals("jdbc")) {
+                payPalAccountDataStore = PayPalAccountDaoJdbc.getInstance(db);
+            }
+            PaymentValidationService paymentValidationService = new PaymentValidationService(payPalAccountDataStore);
 
-        String requestBody = requestHandlerService.readRequestBody();
+            String requestBody = requestHandlerService.readRequestBody();
 
-        PayPalAccount payPalAccount = new Gson().fromJson(requestBody, PayPalAccount.class);
-        var validAccount = paymentValidationService.validatePayPalAccount(payPalAccount);
-        out.println(validAccount);
+            PayPalAccount payPalAccount = new Gson().fromJson(requestBody, PayPalAccount.class);
+            var validAccount = paymentValidationService.validatePayPalAccount(payPalAccount);
+            out.println(validAccount);
+        }else response.sendRedirect("/");
     }
 }
