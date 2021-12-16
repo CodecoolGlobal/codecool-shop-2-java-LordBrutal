@@ -47,10 +47,9 @@ public class UserInfoDaoJdbc implements UserDao {
             st.setString(1, email);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
-                return rs.getInt(1);
-            } else {
                 throw new RuntimeException();
             }
+            return rs.getInt(1);
         } catch (SQLException e) {
             throw new RuntimeException("db connection failure");
         }
