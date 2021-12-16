@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
@@ -18,11 +19,15 @@ public class PaymentController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
-        WebContext context = new WebContext(req, resp, req.getServletContext());
-        OrderDaoMem orderInfo = OrderDaoMem.getInstance();
-        context.setVariable("order", orderInfo);
+        HttpSession session = req.getSession();
+        if (session.getAttribute("email") != null) {
+            TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
+            WebContext context = new WebContext(req, resp, req.getServletContext());
+            OrderDaoMem orderInfo = OrderDaoMem.getInstance();
+            context.setVariable("order", orderInfo);
 
-        engine.process("/payment/payment.html", context, resp.getWriter());
+            engine.process("/payment/payment.html", context, resp.getWriter());
+        }
+        else resp.sendRedirect("/");
     }
 }
