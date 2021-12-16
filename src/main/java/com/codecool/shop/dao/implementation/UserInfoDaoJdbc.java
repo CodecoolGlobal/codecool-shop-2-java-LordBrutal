@@ -5,6 +5,8 @@ import com.codecool.shop.model.User;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserInfoDaoJdbc implements UserDao {
     private static UserInfoDaoJdbc instance = null;
@@ -53,5 +55,22 @@ public class UserInfoDaoJdbc implements UserDao {
         }
         catch (SQLException e) {
         }
+    }
+
+    @Override
+    public List<String> getAllUser() {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT email FROM users";
+            ResultSet rs = conn.createStatement().executeQuery(sql);
+            List<String> users = new ArrayList<>();
+            while (rs.next()) { // while result set pointer is positioned before or on last row read authors
+                String user = rs.getString(1);
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while reading all authors", e);
+        }
+
     }
 }
