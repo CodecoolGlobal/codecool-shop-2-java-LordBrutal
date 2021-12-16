@@ -27,8 +27,8 @@ public class OrderDetailsController extends ServletBaseModel {
         HttpSession session=req.getSession();
         if(connectionType.equals("jdbc") && session.getAttribute("email") != null) {
             OrderDaoJdbc orderDao = OrderDaoJdbc.getInstance(db);
-            String email = (String)session.getAttribute("email");
-            orderDao.loadBillingInfo(email);
+            int userId = (int)session.getAttribute("userId");
+            orderDao.loadBillingInfo(userId);
             context.setVariable("info", orderDao);
             engine.process("/payment/user_details_form.html", context, resp.getWriter());
         }else {

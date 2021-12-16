@@ -102,13 +102,13 @@ public class OrderDaoJdbc implements OrderDao {
         instance = null;
     }
 
-    public void loadBillingInfo(String email) {
+    public void loadBillingInfo(int userId) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT name, phone_number, shipping_address, billing_address, email " +
-                    "FROM billing_info bi " +
-                    "JOIN users u on bi.user_id = u.id WHERE u.email = ?";
+            String sql = "SELECT name, phone_number, shipping_address, billing_address " +
+                    "FROM billing_info " +
+                    "WHERE user_id = ?";
             PreparedStatement st = conn.prepareStatement(sql);
-            st.setString(1, email);
+            st.setInt(1, userId);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
                 return;
