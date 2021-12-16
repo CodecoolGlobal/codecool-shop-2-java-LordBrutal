@@ -2,6 +2,9 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.model.UserModel;
 import com.codecool.shop.service.LoginService;
+import com.codecool.shop.service.RegistrationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +16,9 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/login"})
 public class LoginController  extends ServletBaseModel {
+
+    final Logger logger = LoggerFactory.getLogger(RegistrationService.class);
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
@@ -21,6 +27,7 @@ public class LoginController  extends ServletBaseModel {
         if (loginService.validetaLogint()){
             HttpSession session=req.getSession();
             session.setAttribute("email",email);
+            logger.info("{} user logged in successful!", email);
         }
         resp.sendRedirect("/");
     }
