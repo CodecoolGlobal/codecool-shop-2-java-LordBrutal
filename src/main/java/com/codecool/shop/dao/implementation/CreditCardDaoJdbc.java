@@ -2,7 +2,13 @@ package com.codecool.shop.dao.implementation;
 
 import com.codecool.shop.dao.CreditCardDao;
 import com.codecool.shop.model.paymentmodel.CreditCard;
+import com.codecool.shop.model.paymentmodel.PayPalAccount;
+
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class CreditCardDaoJdbc implements CreditCardDao {
 
@@ -26,6 +32,22 @@ public class CreditCardDaoJdbc implements CreditCardDao {
 
     @Override
     public CreditCard findCard(String cardNumber) {
-        return null;
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT card_holder, exp_year, exp_month, cvv FROM creditcard " +
+                    "WHERE card_number = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, cardNumber);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }
+            return new CreditCard(cardNumber,
+                    rs.getString(1),
+                    Byte.parseByte(rs.getString(2)),
+                    Byte.parseByte(rs.getString(3)),
+                    Short.parseShort(rs.getString(4)));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
