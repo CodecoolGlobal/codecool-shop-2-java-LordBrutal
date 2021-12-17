@@ -1,6 +1,6 @@
 package com.codecool.shop.service;
 
-import com.codecool.shop.dao.implementation.UserInfoDaoJdbc;
+import com.codecool.shop.dao.implementation.UserDaoJdbc;
 import com.codecool.shop.model.User;
 
 import javax.sql.DataSource;
@@ -15,7 +15,7 @@ public class LoginService {
     }
 
     public boolean validateLogin(){
-        UserInfoDaoJdbc userInfoJdbc = UserInfoDaoJdbc.getInstance(dataSource);
+        UserDaoJdbc userInfoJdbc = UserDaoJdbc.getInstance(dataSource);
         return userInfoJdbc.getUserDetails(user.getEmail(), user.getHashedPassword());
     }
 }

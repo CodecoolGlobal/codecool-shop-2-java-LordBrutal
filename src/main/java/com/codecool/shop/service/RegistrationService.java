@@ -1,7 +1,7 @@
 package com.codecool.shop.service;
 
 import com.codecool.shop.dao.UserDao;
-import com.codecool.shop.dao.implementation.UserInfoDaoJdbc;
+import com.codecool.shop.dao.implementation.UserDaoJdbc;
 import com.codecool.shop.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ public class RegistrationService {
     }
 
     public void addNewUser() {
-        UserDao userDao = UserInfoDaoJdbc.getInstance(dataSource);
+        UserDao userDao = UserDaoJdbc.getInstance(dataSource);
         userDao.addUser(user);
         logger.info("Registration is successfully! {} username added to database", user.getEmail());
     }

@@ -6,17 +6,17 @@ import com.codecool.shop.model.User;
 import javax.sql.DataSource;
 import java.sql.*;
 
-public class UserInfoDaoJdbc implements UserDao {
-    private static UserInfoDaoJdbc instance = null;
+public class UserDaoJdbc implements UserDao {
+    private static UserDaoJdbc instance = null;
     private DataSource dataSource;
 
-    private UserInfoDaoJdbc(DataSource dataSource) {
+    private UserDaoJdbc(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public static UserInfoDaoJdbc getInstance(DataSource dataSource) {
+    public static UserDaoJdbc getInstance(DataSource dataSource) {
         if (instance == null) {
-            instance = new UserInfoDaoJdbc(dataSource);
+            instance = new UserDaoJdbc(dataSource);
         }
         return instance;
     }
@@ -40,17 +40,15 @@ public class UserInfoDaoJdbc implements UserDao {
 
     @Override
     public void addUser(User user) {
-        System.out.println(user.getEmail());
         try (Connection conn = dataSource.getConnection()) {
             String sql = "INSERT INTO users (email, password) VALUES (?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getEmail());
             statement.setString(2, user.getHashedPassword());
             statement.executeUpdate();
-            ResultSet resultSet = statement.getGeneratedKeys();
-            resultSet.next();
         }
         catch (SQLException e) {
+            throw new RuntimeException("db connection is failed");
         }
     }
 

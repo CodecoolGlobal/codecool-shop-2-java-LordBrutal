@@ -2,7 +2,7 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.implementation.OrderDaoJdbc;
-import com.codecool.shop.dao.implementation.UserInfoDaoJdbc;
+import com.codecool.shop.dao.implementation.UserDaoJdbc;
 import com.codecool.shop.config.Hash;
 import com.codecool.shop.model.User;
 import com.codecool.shop.service.LoginService;
@@ -30,7 +30,7 @@ public class LoginController  extends ServletBaseModel {
         if (loginService.validateLogin()){
             HttpSession session=req.getSession();
             session.setAttribute("email",email);
-            UserInfoDaoJdbc userDao = UserInfoDaoJdbc.getInstance(db);
+            UserDaoJdbc userDao = UserDaoJdbc.getInstance(db);
             int userId = userDao.getUserId(email);
             session.setAttribute("userId", userId);
             logger.info("{} user logged in successful!", email);
