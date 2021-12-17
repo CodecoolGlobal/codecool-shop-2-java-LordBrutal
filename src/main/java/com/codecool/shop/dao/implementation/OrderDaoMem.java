@@ -116,6 +116,7 @@ public class OrderDaoMem implements OrderDao {
         instance = null;
     }
 
+    //Unused mothods for memory
     @Override
     public boolean hasCart(int userId) {
         return false;
