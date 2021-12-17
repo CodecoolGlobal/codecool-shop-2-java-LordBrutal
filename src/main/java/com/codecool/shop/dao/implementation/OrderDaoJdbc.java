@@ -190,6 +190,20 @@ public class OrderDaoJdbc implements OrderDao {
         }
     }
 
+    public boolean hasBillingInfo(int userId) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT name, phone_number, shipping_address, billing_address, email " +
+                    "FROM billing_info bi" +
+                    " JOIN users u on bi.user_id = u.id WHERE user_id = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, userId);
+            ResultSet rs = st.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void loadBillingInfo(int userId) {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "SELECT name, phone_number, shipping_address, billing_address, email " +
@@ -224,6 +238,23 @@ public class OrderDaoJdbc implements OrderDao {
             st.setString(3, shippingAddress);
             st.setString(4, billingAddress);
             st.setInt(5, userId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void saveBillingInfo(int userId) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "INSERT INTO billing_info " +
+                    "(user_id, name, phone_number, shipping_address, billing_address) " +
+                    "VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setInt(1, userId);
+            st.setString(2, name);
+            st.setString(3, phoneNumber);
+            st.setString(4, shippingAddress);
+            st.setString(5, billingAddress);
             st.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

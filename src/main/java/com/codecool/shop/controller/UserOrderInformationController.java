@@ -33,7 +33,11 @@ public class UserOrderInformationController extends ServletBaseModel {
         HttpSession session = req.getSession();
         if(session.getAttribute("userId") != null && connectionType.equals("jdbc")) {
             int userId = (int)session.getAttribute("userId");
-            ((OrderDaoJdbc) orderDao).updateBillingInfo(userId);
+            if(((OrderDaoJdbc) orderDao).hasBillingInfo(userId)) {
+                ((OrderDaoJdbc) orderDao).updateBillingInfo(userId);
+            } else {
+                ((OrderDaoJdbc) orderDao).saveBillingInfo(userId);
+            }
             if(orderDao.hasCart(userId)) {
                 orderDao.updateCart(userId);
             } else {
