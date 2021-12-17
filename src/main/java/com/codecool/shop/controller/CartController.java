@@ -43,17 +43,16 @@ public class CartController extends ServletBaseModel {
 
         HttpSession session = req.getSession();
         if(session.getAttribute("userId") != null) {
-            OrderDaoJdbc orderDao = OrderDaoJdbc.getInstance(db);
             int userId = (int) session.getAttribute("userId");
 
             if(!items.equals("")) {
-                if(orderDao.hasCart(userId)) {
-                    orderDao.updateCart(userId);
+                if(orderDataStore.hasCart(userId)) {
+                    orderDataStore.updateCart(userId);
                 } else {
-                    orderDao.saveCart(userId);
+                    orderDataStore.saveCart(userId);
                 }
-            } else if(orderDao.hasCart(userId)) {
-                orderDao.emptyCart(userId);
+            } else if(orderDataStore.hasCart(userId)) {
+                orderDataStore.emptyCart(userId);
             }
         }
     }

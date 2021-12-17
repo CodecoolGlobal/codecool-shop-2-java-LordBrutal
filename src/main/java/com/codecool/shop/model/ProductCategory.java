@@ -11,27 +11,12 @@ public class ProductCategory extends BaseModel {
     public ProductCategory(String name, String department, String description) {
         super(name);
         this.department = department;
+        this.description = description;
         this.products = new ArrayList<>();
     }
 
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public void setProducts(ArrayList<Product> products) {
-        this.products = products;
-    }
-
-    public List<Product> getProducts() {
-        return this.products;
-    }
-
-    public List<Product> getFilteredProducts(List<Product> filter) {
-        return filter.stream()
+    public List<Product> filterProductsByCategory(List<Product> filtered) {
+        return filtered.stream()
                 .filter(p -> p.getProductCategory().getName().equals(this.getName()))
                         .collect(Collectors.toList());
     }

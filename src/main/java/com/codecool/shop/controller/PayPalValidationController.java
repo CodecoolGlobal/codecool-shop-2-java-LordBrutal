@@ -1,7 +1,9 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.PayPalAccountDao;
 import com.codecool.shop.dao.implementation.OrderDaoJdbc;
+import com.codecool.shop.dao.implementation.OrderDaoMem;
 import com.codecool.shop.dao.implementation.PayPalAccountDaoJdbc;
 import com.codecool.shop.dao.implementation.PayPalAccountDaoMem;
 import com.codecool.shop.model.paymentmodel.PayPalAccount;
@@ -31,24 +33,25 @@ public class PayPalValidationController extends ServletBaseModel {
             RequestHandlerService requestHandlerService = new RequestHandlerService(request);
             PrintWriter out = response.getWriter();
 
+            OrderDao orderDataStore = OrderDaoMem.getInstance();
             PayPalAccountDao payPalAccountDataStore = PayPalAccountDaoMem.getInstance();
             if (connectionType.equals("jdbc")) {
+                orderDataStore = OrderDaoJdbc.getInstance(db);
                 payPalAccountDataStore = PayPalAccountDaoJdbc.getInstance(db);
             }
-            PaymentValidationService paymentValidationService = new PaymentValidationService(payPalAccountDataStore);
+            PaymentValidationService paymentValidationService = new PaymentValidationService(payPalAccountDataStore, orderDataStore);
 
             String requestBody = requestHandlerService.readRequestBody();
 
             PayPalAccount payPalAccount = new Gson().fromJson(requestBody, PayPalAccount.class);
             var validAccount = paymentValidationService.validatePayPalAccount(payPalAccount);
-            if(validAccount) {
-                OrderDaoJdbc orderDao = OrderDaoJdbc.getInstance(db);
+            if(validAccount && connectionType.equals("jdbc")) {
                 int userId = (int)session.getAttribute("userId");
                 int orderId = (int)session.getAttribute("orderId");
-                orderDao.loadOrder(orderId);
-                orderDao.setPaymentSuccess();
-                orderDao.saveOrder(userId);
-                orderDao.emptyCart(userId);
+                orderDataStore.loadOrder(orderId);
+                orderDataStore.setPaymentSuccess();
+                orderDataStore.saveOrder(userId);
+                orderDataStore.emptyCart(userId);
             }
             out.println(validAccount);
         }else response.sendRedirect("/");

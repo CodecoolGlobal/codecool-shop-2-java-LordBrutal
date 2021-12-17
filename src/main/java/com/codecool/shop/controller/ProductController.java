@@ -28,27 +28,22 @@ public class ProductController extends ServletBaseModel {
         String supplyParameter = req.getParameter("supplier");
         Properties connection = getConnectionProperties();
         String connectionType = connection.getProperty("dao");
-        ProductService productService;
-        List<Product> products;
-        ProductDao productDataStore;
-        ProductCategoryDao productCategoryDataStore;
-        SupplierDao supplierDataStore;
+
+        ProductDao productDataStore = ProductDaoMem.getInstance();
+        ProductCategoryDao categoryDatatore = ProductCategoryDaoMem.getInstance();
+        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
 
         if(connectionType.equals("jdbc")) {
             productDataStore = ProductDaoJdbc.getInstance(db);
-            productCategoryDataStore = ProductCategoryDaoJdbc.getInstance(db);
+            categoryDatatore = ProductCategoryDaoJdbc.getInstance(db);
             supplierDataStore = SupplierDaoJdbc.getInstance(db);
-        } else {
-            productDataStore = ProductDaoMem.getInstance();
-            productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-            supplierDataStore = SupplierDaoMem.getInstance();
         }
 
-        productService = new ProductService(productDataStore,productCategoryDataStore, connectionType);
-        products = productService.filterProducts(categoryParameter, supplyParameter, supplierDataStore);
+        ProductService productService = new ProductService(productDataStore,categoryDatatore, connectionType);
+        List<Product> products = productService.filterProducts(categoryParameter, supplyParameter, supplierDataStore);
 
         context.setVariable("products", products);
-        context.setVariable("categories", productCategoryDataStore.getAll());
+        context.setVariable("categories", categoryDatatore.getAll());
         context.setVariable("suppliers", supplierDataStore.getAll());
         engine.process("product/index.html", context, resp.getWriter());
     }

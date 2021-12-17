@@ -34,12 +34,12 @@ public class UserOrderInformationController extends ServletBaseModel {
         if(session.getAttribute("userId") != null && connectionType.equals("jdbc")) {
             int userId = (int)session.getAttribute("userId");
             ((OrderDaoJdbc) orderDao).updateBillingInfo(userId);
-            if(((OrderDaoJdbc) orderDao).hasCart(userId)) {
-                ((OrderDaoJdbc) orderDao).updateCart(userId);
+            if(orderDao.hasCart(userId)) {
+                orderDao.updateCart(userId);
             } else {
-                ((OrderDaoJdbc) orderDao).saveCart(userId);
+                orderDao.saveCart(userId);
             }
-            int orderId = ((OrderDaoJdbc) orderDao).saveOrder(userId);
+            int orderId = orderDao.saveOrder(userId);
             session.setAttribute("orderId", orderId);
         }
 

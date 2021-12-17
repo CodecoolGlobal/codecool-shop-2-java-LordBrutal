@@ -21,10 +21,6 @@ public class ProductService{
         this.daoType = daoType;
     }
 
-    public ProductCategory getProductCategory(int categoryId){
-        return productCategoryDao.find(categoryId);
-    }
-
     public List<Product> getProductsForCategory(int categoryId){
         if(daoType.equals("memory")) {
             ProductCategory category = productCategoryDao.find(categoryId);

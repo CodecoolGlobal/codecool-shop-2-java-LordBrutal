@@ -26,11 +26,11 @@ public class PaymentController extends ServletBaseModel {
             WebContext context = new WebContext(req, resp, req.getServletContext());
             Properties connection = getConnectionProperties();
             String connectionType = connection.getProperty("dao");
-            OrderDao orderInfo = OrderDaoMem.getInstance();
+            OrderDao orderDataStore = OrderDaoMem.getInstance();
             if(connectionType.equals("jdbc")) {
-                orderInfo = OrderDaoJdbc.getInstance(db);
+                orderDataStore = OrderDaoJdbc.getInstance(db);
             }
-            context.setVariable("order", orderInfo);
+            context.setVariable("order", orderDataStore);
             engine.process("/payment/payment.html", context, resp.getWriter());
         } else resp.sendRedirect("/");
 

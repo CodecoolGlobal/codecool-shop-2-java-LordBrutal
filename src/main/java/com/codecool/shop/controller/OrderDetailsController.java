@@ -26,10 +26,10 @@ public class OrderDetailsController extends ServletBaseModel {
         WebContext context = new WebContext(req, resp, req.getServletContext());
         HttpSession session=req.getSession();
         if(connectionType.equals("jdbc") && session.getAttribute("email") != null) {
-            OrderDaoJdbc orderDao = OrderDaoJdbc.getInstance(db);
+            OrderDaoJdbc orderDataStore = OrderDaoJdbc.getInstance(db);
             int userId = (int)session.getAttribute("userId");
-            orderDao.loadBillingInfo(userId);
-            context.setVariable("info", orderDao);
+            orderDataStore.loadBillingInfo(userId);
+            context.setVariable("info", orderDataStore);
             engine.process("/payment/user_details_form.html", context, resp.getWriter());
         }else {
             resp.sendRedirect("/");

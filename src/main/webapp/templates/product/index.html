@@ -108,12 +108,12 @@
 </div>
 
 <div class="container" th:each="cat,iterStat : ${categories}">
-    <div class="categories" th:if="${cat.getFilteredProducts(products).size() > 0}">
+    <div class="categories" th:if="${cat.filterProductsByCategory(products).size() > 0}">
         <strong th:text="${cat.name}">Category Title</strong>
     </div>
 
     <div id="products" class="row">
-        <div class="col col-sm-12 col-md-6 col-lg-4" th:each="prod,iterStat : ${cat.getFilteredProducts(products)}">
+        <div class="col col-sm-12 col-md-6 col-lg-4" th:each="prod,iterStat : ${cat.filterProductsByCategory(products)}">
             <div class="card">
                 <img class="" src="http://placehold.it/400x250/000/fff" th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt="" />
                 <div class="card-header">

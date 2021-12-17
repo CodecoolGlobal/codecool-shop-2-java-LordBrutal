@@ -29,25 +29,25 @@ public class ConfirmationController extends ServletBaseModel {
         Properties connection = getConnectionProperties();
         String connectionType = connection.getProperty("dao");
         WebContext context = new WebContext(req, resp, req.getServletContext());
-        OrderDao orderDao = OrderDaoMem.getInstance();
+        OrderDao orderDataStore = OrderDaoMem.getInstance();
         if(connectionType.equals("jdbc")) {
-            orderDao = OrderDaoJdbc.getInstance(db);
+            orderDataStore = OrderDaoJdbc.getInstance(db);
             HttpSession session = req.getSession();
             if(session.getAttribute("userId") != null) {
                 int orderId = (int)session.getAttribute("orderId");
-                ((OrderDaoJdbc) orderDao).loadOrder(orderId);
+                orderDataStore.loadOrder(orderId);
             }
         }
-        context.setVariable("order", orderDao);
+        context.setVariable("order", orderDataStore);
         engine.process("/payment/confirmation.html", context, resp.getWriter());
-        if (orderDao.isPaymentSuccess()){
-            SendMail.sendOrderEmail(orderDao.getEmail(),"Web shop Order","Your order is the following", orderDao.getCartItems());
+        if (orderDataStore.isPaymentSuccess()){
+            SendMail.sendOrderEmail(orderDataStore.getEmail(),"Web shop Order","Your order is the following", orderDataStore.getCartItems());
             Gson gson =  new Gson();
-            String json = gson.toJson(orderDao) + "\n" ;
+            String json = gson.toJson(orderDataStore) + "\n" ;
             BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/logFiles/orders.txt",true));
             writer.write(json);
             writer.close();
-            orderDao.removeInstance();
+            orderDataStore.removeInstance();
         }
     }
 }

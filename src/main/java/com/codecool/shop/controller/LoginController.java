@@ -1,5 +1,6 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.implementation.OrderDaoJdbc;
 import com.codecool.shop.dao.implementation.UserInfoDaoJdbc;
 import com.codecool.shop.config.Hash;
@@ -33,9 +34,9 @@ public class LoginController  extends ServletBaseModel {
             int userId = userDao.getUserId(email);
             session.setAttribute("userId", userId);
             logger.info("{} user logged in successful!", email);
-            OrderDaoJdbc orderDao = OrderDaoJdbc.getInstance(db);
-            if(orderDao.hasCart(userId)) {
-                orderDao.loadCart(userId);
+            OrderDao orderDataStore = OrderDaoJdbc.getInstance(db);
+            if(orderDataStore.hasCart(userId)) {
+                orderDataStore.loadCart(userId);
             }
         }
         resp.sendRedirect("/");

@@ -19,10 +19,6 @@ public class CartItem {
         return piece;
     }
 
-    public void setPiece(int piece) {
-        this.piece = piece;
-    }
-
     public String getName() {
         return name;
     }
