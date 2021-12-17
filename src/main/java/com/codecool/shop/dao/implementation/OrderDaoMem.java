@@ -115,4 +115,20 @@ public class OrderDaoMem implements OrderDao {
     public void removeInstance(){
         instance = null;
     }
-}
+
+    @Override
+    public boolean hasCart(int userId) {
+        return false;
+    }
+    @Override
+    public void saveCart(int userId) {}
+    @Override
+    public void updateCart(int userId) {}
+    @Override
+    public void loadCart(int userId) {}
+    @Override
+    public void emptyCart(int userId) {}
+    @Override
+    public void loadOrder(int userid) {}
+    @Override
+    public int saveOrder(int userId) {return -1;}}

@@ -27,17 +27,16 @@ public class CreditCardValidationController extends ServletBaseModel {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         if (session.getAttribute("email") != null) {
-            CreditCardDao creditCardDataStore = CreditCardDaoMem.getInstance();
             Properties connection = getConnectionProperties();
             String connectionType = connection.getProperty("dao");
+            CreditCardDao creditCardDataStore = CreditCardDaoMem.getInstance();
             OrderDao orderDataStore = OrderDaoMem.getInstance();
-
             if(connectionType.equals("jdbc")) {
                 creditCardDataStore = CreditCardDaoJdbc.getInstance(db);
                 orderDataStore = OrderDaoJdbc.getInstance(db);
             }
-            PaymentValidationService paymentValidationService = new PaymentValidationService(creditCardDataStore);
 
+            PaymentValidationService paymentValidationService = new PaymentValidationService(creditCardDataStore, orderDataStore);
             RequestHandlerService requestHandlerService = new RequestHandlerService(request);
             PrintWriter out = response.getWriter();
             String requestBody = requestHandlerService.readRequestBody();
@@ -49,11 +48,11 @@ public class CreditCardValidationController extends ServletBaseModel {
                 if(connectionType.equals("jdbc")){
                     int userId = (int) session.getAttribute("userId");
                     int orderId = (int)session.getAttribute("orderId");
-                    ((OrderDaoJdbc) orderDataStore).loadOrder(orderId);
+                    orderDataStore.loadOrder(orderId);
                     orderDataStore.setPaymentSuccess();
-                    ((OrderDaoJdbc) orderDataStore).saveOrder(userId);
-                    ((OrderDaoJdbc) orderDataStore).emptyCart(userId);
-                    ((OrderDaoJdbc)orderDataStore).saveOrder(userId);
+                    orderDataStore.saveOrder(userId);
+                    orderDataStore.emptyCart(userId);
+                    orderDataStore.saveOrder(userId);
                 }
             }
             out.println(validCreditCard);
