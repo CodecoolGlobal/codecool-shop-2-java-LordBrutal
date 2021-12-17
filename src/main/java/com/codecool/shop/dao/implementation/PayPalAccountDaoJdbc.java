@@ -43,7 +43,6 @@ public class PayPalAccountDaoJdbc implements PayPalAccountDao {
 
     @Override
     public void add(PayPalAccount account) {
-
     }
 
 }

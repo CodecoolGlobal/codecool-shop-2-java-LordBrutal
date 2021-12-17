@@ -52,10 +52,6 @@ public class ProductCategoryDaoJdbc implements ProductCategoryDao {
     }
 
     @Override
-    public void remove(int id) {
-    }
-
-    @Override
     public List<ProductCategory> getAll() {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "SELECT id, name, department, description  FROM category";

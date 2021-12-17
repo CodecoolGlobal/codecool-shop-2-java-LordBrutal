@@ -3,7 +3,6 @@ package com.codecool.shop.dao.implementation;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.Properties;
-
 import org.postgresql.ds.PGSimpleDataSource;
 
 public class DatabaseManager {

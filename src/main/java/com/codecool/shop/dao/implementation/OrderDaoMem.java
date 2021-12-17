@@ -19,10 +19,12 @@ public class OrderDaoMem implements OrderDao {
     private OrderDaoMem() {
     }
 
+    @Override
     public List<CartItem> getCartItems() {
         return cartItems;
     }
 
+    @Override
     public void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
     }
@@ -34,66 +36,82 @@ public class OrderDaoMem implements OrderDao {
         return instance;
     }
 
+    @Override
     public void add(CartItem cartItem) {
         cartItems.add(cartItem);
     }
 
+    @Override
     public void setPaymentSuccess() {
         this.paymentSuccess = true;
     }
 
-    public void setTotalPrice(int totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public int getTotalPrice() {
-        return totalPrice;
-    }
-
+    @Override
     public boolean isPaymentSuccess() {
         return paymentSuccess;
     }
 
+    @Override
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    @Override
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    @Override
     public String getEmail() {
         return email;
     }
 
+    @Override
     public void setEmail(String email) {
         this.email = email;
     }
 
+    @Override
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
+    @Override
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
+    @Override
     public String getBillingAddress() {
         return billingAddress;
     }
 
+    @Override
     public void setBillingAddress(String billingAddress) {
         this.billingAddress = billingAddress;
     }
 
+    @Override
     public String getShippingAddress() {
         return shippingAddress;
     }
 
+    @Override
     public void setShippingAddress(String shippingAddress) {
         this.shippingAddress = shippingAddress;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public void removeInstance(){
         instance = null;
     }

@@ -53,10 +53,6 @@ public class SupplierDaoJdbc implements SupplierDao {
     }
 
     @Override
-    public void remove(int id) {
-    }
-
-    @Override
     public List<Supplier> getAll() {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "SELECT id, name, description FROM supplier s";

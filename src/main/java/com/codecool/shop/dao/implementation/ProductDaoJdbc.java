@@ -54,9 +54,6 @@ public class ProductDaoJdbc implements ProductDao {
     }
 
     @Override
-    public void remove(int id) {}
-
-    @Override
     public List<Product> getAll() {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "SELECT p.id, p.name, price, currency, p.description, c.name, c.description, c.department, s.name, s.description FROM product p " +
