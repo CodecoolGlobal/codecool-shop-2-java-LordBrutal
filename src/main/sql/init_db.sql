@@ -78,8 +78,8 @@ CREATE TABLE paypal (
 INSERT INTO users (email, password) VALUES ('kispistashop@gmail.com', '3f7bf8614ecde909b9b294c4043d91518c85b9cc24ef705167d2d0fd81332cea39616615d88a2d16e98f90c8993025dac85efa3aae0aa1a59105fd3ddf5a57db');
 INSERT INTO users (email, password) VALUES ('bogar.jozsef@gmail.com', '3f7bf8614ecde909b9b294c4043d91518c85b9cc24ef705167d2d0fd81332cea39616615d88a2d16e98f90c8993025dac85efa3aae0aa1a59105fd3ddf5a57db');
 
-INSERT INTO billing_info (user_id, name, phone_number, shipping_address, billing_address) VALUES (1, 1, 'Kis Pista', '061234567', 'Hal utca 1', 'Hal utca 1');
-INSERT INTO billing_info (user_id, name, phone_number, shipping_address, billing_address) VALUES (2, 2, 'Nagy Geza', '069876543', 'Fa utca 2', 'Fa utca 2');
+INSERT INTO billing_info (user_id, name, phone_number, shipping_address, billing_address) VALUES (1, 'Kis Pista', '061234567', 'Hal utca 1', 'Hal utca 1');
+INSERT INTO billing_info (user_id, name, phone_number, shipping_address, billing_address) VALUES (2, 'Nagy Geza', '069876543', 'Fa utca 2', 'Fa utca 2');
 
 INSERT INTO category (id, name, department, description) VALUES (1, 'Tablet', 'Hardware', 'A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display.');
 INSERT INTO category (id, name, department, description) VALUES (2, 'Phone', 'Hardware', 'A device for calling and personal use when moving.');
@@ -116,5 +116,3 @@ INSERT INTO creditcard (user_id, card_number, card_holder, exp_year, exp_month, 
 INSERT INTO paypal (user_id, username, password) VALUES (1, 'kispista', 'kp123');
 INSERT INTO paypal (user_id, username, password) VALUES (1, 'nagygeza', 'ng321');
 
-ALTER SEQUENCE billing_info_id_seq RESTART 3;
-ALTER SEQUENCE users_id_seq RESTART 3;
